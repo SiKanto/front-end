@@ -1,6 +1,6 @@
 /* Container for Users Section */
 #users {
-  padding: 30px;
+  padding: 20px;
   background-color: var(--background-color);
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
   border-radius: 10px;
@@ -9,11 +9,10 @@
 }
 
 #users h2 {
-  font-size: 32px;
-  color: var(--text-color);
+  font-size: 28px;
+  color: var(--accent-color);
   margin-bottom: 20px;
   font-weight: bold;
-  text-align: center;
 }
 
 /* Search Input Styling */
@@ -23,7 +22,6 @@
   border-radius: 50px;
   border: 1px solid var(--accent-color);
   width: 75%;
-  margin-bottom: 20px;
   box-shadow: 0px 4px 10px rgba(255, 0, 0, 0.1);
   transition: all 0.3s ease;
 }
@@ -32,6 +30,11 @@
   outline: none;
   border-color: var(--primary-color);
   box-shadow: 0px 4px 12px rgba(255, 0, 0, 0.2);
+}
+
+select {
+  border-radius: 50px;
+  height: 44px;
 }
 
 /* User List Styling */
@@ -52,7 +55,7 @@
 }
 
 .user-card:hover {
-  transform: scale(1.02);
+  transform: scale(1.01);
   box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
 }
 

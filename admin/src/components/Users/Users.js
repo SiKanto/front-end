@@ -5,6 +5,7 @@ import './Users.css';
 const Users = () => {
   const [search, setSearch] = useState("");
   const [users, setUsers] = useState([]);
+  const [itemsPerPage, setItemsPerPage] = useState(10);
 
   useEffect(() => {
     async function fetchUsers() {
@@ -17,10 +18,14 @@ const Users = () => {
     }
 
     fetchUsers();
-  }, []);
+  }, [itemsPerPage]);
 
   const handleSearchChange = (e) => {
     setSearch(e.target.value);
+  };
+
+  const handleItemsPerPageChange = (e) => {
+    setItemsPerPage(Number(e.target.value)); // Update jumlah item per halaman
   };
 
   // 🔁 Fungsi toggle status aktif/banned
@@ -52,13 +57,20 @@ const Users = () => {
   return (
     <section id="users">
       <h2>Users</h2>
-      <input
-        type="text"
-        id="search-users"
-        value={search}
-        placeholder="Search users..."
-        onChange={handleSearchChange}
-      />
+      <div className='search-sort'>
+        <input
+          type="text"
+          id="search-users"
+          value={search}
+          placeholder="Search users..."
+          onChange={handleSearchChange}
+        />
+        <select onChange={handleItemsPerPageChange} value={itemsPerPage}>
+          <option value={10}>10 items</option>
+          <option value={50}>50 items</option>
+          <option value={100}>100 items</option>
+        </select>
+      </div>
       <div id="user-list">
         {filteredUsers.length > 0 ? (
           filteredUsers.map((user) => (

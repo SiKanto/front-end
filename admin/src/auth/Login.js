@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
 import './auth.css';
@@ -7,7 +7,21 @@ const Login = ({ onLogin }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [message, setMessage] = useState('');
-  const history = useNavigate(); // Hook untuk navigasi
+  const [rememberMe, setRememberMe] = useState(false);
+  const history = useNavigate();
+
+  // Cek apakah ada data login di localStorage saat komponen dimuat
+  useEffect(() => {
+    const savedEmail = localStorage.getItem('email');
+    const savedPassword = localStorage.getItem('password');
+    const savedRememberMe = localStorage.getItem('rememberMe') === 'true';
+
+    if (savedRememberMe) {
+      setEmail(savedEmail);
+      setPassword(savedPassword);
+      setRememberMe(true);
+    }
+  }, []);
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -18,45 +32,76 @@ const Login = ({ onLogin }) => {
         password
       });
 
-      // Pastikan bahwa response memiliki data dan token
       if (response.data && response.data.token) { 
-        onLogin(response.data.token);  // Simpan token setelah login
-        history('/dashboard');  // Redirect ke halaman dashboard setelah login berhasil
+        onLogin(response.data.token);
+        history('/dashboard');
+
+        // Simpan data login ke localStorage jika Remember Me dicentang
+        if (rememberMe) {
+          localStorage.setItem('email', email);
+          localStorage.setItem('password', password);
+          localStorage.setItem('rememberMe', 'true');
+        } else {
+          // Hapus data login jika Remember Me tidak dicentang
+          localStorage.removeItem('email');
+          localStorage.removeItem('password');
+          localStorage.removeItem('rememberMe');
+        }
       } else {
-        setMessage('Login gagal. Silakan periksa kredensial Anda.');
+        setMessage('Login failed. Please check your credentials.');
       }
     } catch (error) {
-      // Menangani error jika terjadi masalah di API atau jaringan
       if (error.response) {
-        setMessage(error.response.data.message || 'Terjadi kesalahan saat login.');
+        setMessage(error.response.data.message || 'There was an issue with the login.');
       } else {
-        setMessage('Terjadi kesalahan jaringan.');
+        setMessage('Network error.');
       }
     }
   };
 
   return (
-    <div className="login-container">
-      <h2>Login Admin</h2>
-      <form onSubmit={handleLogin}>
-        <input
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-        />
-        <input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-        />
-        <button type="submit">Login</button>
-      </form>
-      {message && <p>{message}</p>}
-      <p>Belum punya akun? <Link to="/register">Klik untuk daftar</Link></p>
+    <div className="auth-container">
+      <div className="auth-form">
+        <h2>Welcome back</h2>
+        <form onSubmit={handleLogin}>
+          <input
+            className='email-login'
+            type="email"
+            placeholder="Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
+          <input
+            className='password-login'
+            type="password"
+            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
+          <div className="extra-options">
+            <div className="container-checkbox">
+              <input 
+                type="checkbox" 
+                className="checkbox" 
+                checked={rememberMe}
+                onChange={() => setRememberMe(!rememberMe)} 
+              />
+              <label className="label-checkbox">Remember me</label>
+            </div>
+            <Link to="/forgot-password" className="forgot-password">Forgot Password?</Link>
+          </div>
+          <button className='button-login' type="submit">Login</button>
+        </form>
+        {message && <p>{message}</p>}
+        <p>Don't have an account? <Link to="/register">Sign up</Link></p>
+      </div>
+      <div className="welcome-box">
+        <img src="/icon-red192.png" alt="Kanto Logo" className="logo"/>
+        <h2>Welcome to Kanto</h2>
+        <p>Your journey starts here</p>
+      </div>
     </div>
   );
 };

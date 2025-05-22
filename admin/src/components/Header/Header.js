@@ -1,26 +1,26 @@
-import React, { useEffect, useState } from 'react';
+// Header.js
+import React, { useState } from 'react';
 import './Header.css';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../../Contexts/AuthContext'; // Menggunakan AuthContext
+import LoadingSpinner from '../Loading/LoadingSpinner';
 
 const Header = () => {
   const navigate = useNavigate();
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const location = useLocation();
-
-  useEffect(() => {
-    const token = localStorage.getItem('adminToken');
-    setIsAuthenticated(!!token);
-  }, [location]); // <- Re-run setiap kali lokasi berubah
-
+  const { isAuthenticated, logout } = useAuth(); // Ambil isAuthenticated dan logout dari context
+  const [loading, setLoading] = useState(false);
 
   const handleLogout = () => {
-    localStorage.removeItem('adminToken');
-    setIsAuthenticated(false);
-    navigate('/login');
+    setLoading(true); // Tampilkan loading spinner
+    setTimeout(() => {
+      logout(); // Logout menggunakan AuthContext
+      setLoading(false); // Sembunyikan spinner setelah logout selesai
+      navigate('/login'); // Arahkan ke halaman login setelah logout
+    }, 2000); // Simulasi proses logout selama 2 detik
   };
 
   const handleLogin = () => {
-    navigate('/login');
+    navigate('/login'); // Arahkan ke halaman login
   };
 
   return (
@@ -28,11 +28,15 @@ const Header = () => {
       <div className="logo" onClick={() => navigate('/')}>
         <img src="/name-red.png" alt="icon-kanto" style={{ cursor: 'pointer' }} />
       </div>
+
+      {/* Render Loading Spinner jika loading true */}
+      {loading && <LoadingSpinner />}
+
       <div className="logout">
         {isAuthenticated ? (
-          <button onClick={handleLogout}>Logout</button>
+          <button onClick={handleLogout}>Logout</button> // Tampilkan tombol logout jika terautentikasi
         ) : (
-          <button onClick={handleLogin}>Login</button>
+          <button onClick={handleLogin}>Login</button> // Tampilkan tombol login jika belum terautentikasi
         )}
       </div>
     </header>
