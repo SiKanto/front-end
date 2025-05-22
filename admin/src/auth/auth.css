@@ -1,0 +1,105 @@
+/* Container styles for both register and login forms */
+.register-container,
+.login-container {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 400px;
+  padding: 40px 30px;
+  text-align: center;
+  box-sizing: border-box;
+  margin: 140px auto;
+}
+
+h2 {
+  font-size: 26px;
+  margin-bottom: 20px;
+  color: #333;
+  font-weight: bold;
+}
+
+/* Input field styling */
+input {
+  width: 100%;
+  padding: 12px 15px;
+  margin: 12px 0;
+  border: 1px solid var(--secondary-color);
+  border-radius: 8px;
+  font-size: 16px;
+  box-sizing: border-box;
+  transition: border-color 0.3s ease;
+}
+
+/* Focus state for input */
+input:focus {
+  border-color: var(--primary-color);
+  outline: none;
+}
+
+/* Button styles */
+button {
+  width: 100%;
+  padding: 12px;
+  background-color: var(--background-color);
+  color: var(--primary-color);
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  border: 1px solid var(--primary-color);
+}
+
+button:hover {
+  background-color: var(--primary-color);
+  color: var(--background-color);
+  border: 1px solid var(--primary-color);
+}
+
+/* Text below buttons */
+p {
+  margin-top: 10px;
+  font-size: 14px;
+  color: #777;
+}
+
+a {
+  color: #DC0000;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* Error message styling */
+.message {
+  margin-top: 15px;
+  font-size: 14px;
+  color: #e74c3c;
+}
+
+/* Media Queries for responsiveness */
+@media (max-width: 480px) {
+  .register-container, .login-container {
+    padding: 20px;
+    max-width: 100%;
+  }
+
+  h2 {
+    font-size: 22px;
+  }
+
+  input {
+    font-size: 14px;
+  }
+
+  button {
+    font-size: 14px;
+  }
+
+  p {
+    font-size: 12px;
+  }
+}

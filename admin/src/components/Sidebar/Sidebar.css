@@ -1,0 +1,77 @@
+/* Sidebar styles */
+nav {
+  width: 250px;
+  height: 100vh;
+  background-color: var(--background-color); /* Warna dasar untuk latar belakang sidebar */
+  position: fixed;
+  top: 0;
+  left: 0;
+  padding-top: 80px;
+  box-shadow: 2px 0px 6px rgba(0, 0, 0, 0.1);
+  z-index: 500;
+}
+
+nav ul {
+  list-style: none;
+  padding: 0;
+}
+
+nav ul li {
+  padding: 10px 20px;
+  font-size: 18px;
+  font-weight: 500;
+}
+
+nav ul li a {
+  text-decoration: none;
+  color: var(--accent-color);
+  display: block;
+  padding: 10px 20px;
+  border-radius: 5px;
+}
+
+nav ul li a:hover {
+  background-color: var(--primary-color);
+  color: white;
+  transition: background-color 0.3s ease;
+}
+
+nav ul li.active a {
+  background-color: #B9B28A;
+  font-weight: bold;
+
+}
+
+nav .logo {
+  font-size: 24px;
+  font-weight: bold;
+  color: #B9B28A;
+  padding-left: 20px;
+  margin-bottom: 30px;
+}
+
+/* Media Query for small screens */
+@media (max-width: 768px) {
+  nav {
+    width: 100%; /* Sidebar menjadi lebar penuh pada layar kecil */
+    height: auto;
+    position: relative;
+    padding-top: 10px;
+  }
+
+  nav ul {
+    display: flex;
+    justify-content: space-around;
+    padding: 0;
+  }
+
+  nav ul li {
+    padding: 10px;
+    font-size: 16px;
+  }
+
+  nav ul li a:hover {
+    background-color: #B9B28A;
+    color: white;
+  }
+}
