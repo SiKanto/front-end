@@ -31,7 +31,7 @@
   border-radius: 50px;
   border: 1px solid var(--primary-color);
   box-shadow: 0px 4px 6px rgba(255, 0, 0, 0.1);
-  width: 70%;
+  width: 75%;
 }
 
 select {
@@ -118,4 +118,49 @@ select {
   font-size: 18px;
   color: #888;
   text-align: center;
+}
+
+.pagination {
+  margin-top: 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: Arial, sans-serif;
+  padding-bottom: 1rem;
+}
+
+.pagination button {
+  padding: 0.3rem 0.6rem;
+  background-color: #ffffff00;
+  border: 1px solid var(--primary-color);
+  color: var(--primary-color);
+  border-radius: 4px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  min-width: 40px;
+}
+
+.pagination button:hover:not(:disabled) {
+  background-color: var(--primary-color);
+  color: var(--background-color);
+}
+
+.pagination button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.pagination .page-info {
+  font-weight: 500;
+  padding: 0 0.5rem;
+  white-space: nowrap; /* supaya teks "Page 1 of 11" tidak pindah baris */
+}
+
+.pagination-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 1rem;
 }

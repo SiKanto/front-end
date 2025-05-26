@@ -12,7 +12,6 @@ import Dashboard from './components/Dashboard/Dashboard';
 import Modal from './components/Modal/Modal';
 import Register from './auth/Register';
 import Login from './auth/Login';
-import Footer from './components/Footer/Footer';
 import './App.css';
 
 const App = () => {

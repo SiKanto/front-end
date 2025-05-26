@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
 import './auth.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEye, faEyeSlash, faEnvelope  } from '@fortawesome/free-solid-svg-icons';
 
 const Login = ({ onLogin }) => {
   const [email, setEmail] = useState('');
@@ -9,6 +11,11 @@ const Login = ({ onLogin }) => {
   const [message, setMessage] = useState('');
   const [rememberMe, setRememberMe] = useState(false);
   const history = useNavigate();
+  const [showPassword, setShowPassword] = useState(false);
+
+  const togglePasswordEye = () => {
+    setShowPassword(!showPassword);
+  };
 
   // Cek apakah ada data login di localStorage saat komponen dimuat
   useEffect(() => {
@@ -64,22 +71,32 @@ const Login = ({ onLogin }) => {
       <div className="auth-form">
         <h2>Welcome back</h2>
         <form onSubmit={handleLogin}>
-          <input
-            className='email-login'
-            type="email"
-            placeholder="Email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-          <input
-            className='password-login'
-            type="password"
-            placeholder="Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
+          <div className="input-container">
+            <input
+              className="email-login"
+              type="email"
+              placeholder="Email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+            <span className="mail-form">
+              <FontAwesomeIcon icon={faEnvelope} />
+            </span>
+          </div>
+          <div className="input-container">
+            <input
+              className="password-login"
+              type={showPassword ? "text" : "password"}
+              placeholder="Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+            <span className="pass-form" onClick={togglePasswordEye}>
+              <FontAwesomeIcon icon={showPassword ? faEye : faEyeSlash} />
+            </span>
+          </div>
           <div className="extra-options">
             <div className="container-checkbox">
               <input 

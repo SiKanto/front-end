@@ -6,29 +6,36 @@ const Users = () => {
   const [search, setSearch] = useState("");
   const [users, setUsers] = useState([]);
   const [itemsPerPage, setItemsPerPage] = useState(10);
+  const [currentPage, setCurrentPage] = useState(1); // state halaman saat ini
 
   useEffect(() => {
     async function fetchUsers() {
       try {
         const response = await axios.get('https://kanto-backend.up.railway.app/users');
         setUsers(response.data);
+        setCurrentPage(1); // reset halaman saat data baru dimuat
       } catch (error) {
         console.error('Error fetching users:', error);
       }
     }
 
     fetchUsers();
+  }, []);
+
+  // Reset halaman saat itemsPerPage berubah
+  useEffect(() => {
+    setCurrentPage(1);
   }, [itemsPerPage]);
 
   const handleSearchChange = (e) => {
     setSearch(e.target.value);
+    setCurrentPage(1); // reset halaman saat search berubah
   };
 
   const handleItemsPerPageChange = (e) => {
-    setItemsPerPage(Number(e.target.value)); // Update jumlah item per halaman
+    setItemsPerPage(Number(e.target.value));
   };
 
-  // 🔁 Fungsi toggle status aktif/banned
   const toggleUserStatus = (userId, currentStatus) => {
     const newStatus = currentStatus === 'active' ? 'banned' : 'active';
     axios.put(`https://kanto-backend.up.railway.app/users/${userId}`, { status: newStatus })
@@ -49,10 +56,25 @@ const Users = () => {
       .catch(error => console.error('Error deleting user:', error));
   };
 
+  // Filter berdasarkan search
   const filteredUsers = users.filter(user =>
     user.username.toLowerCase().includes(search.toLowerCase()) ||
     user.email.toLowerCase().includes(search.toLowerCase())
   );
+
+  // Hitung total halaman
+  const totalPages = Math.ceil(filteredUsers.length / itemsPerPage);
+
+  // Ambil data user yang hanya akan ditampilkan pada halaman sekarang
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const currentUsers = filteredUsers.slice(startIndex, startIndex + itemsPerPage);
+
+  // Fungsi untuk ganti halaman
+  const handlePageChange = (pageNumber) => {
+    if(pageNumber < 1) pageNumber = 1;
+    else if(pageNumber > totalPages) pageNumber = totalPages;
+    setCurrentPage(pageNumber);
+  };
 
   return (
     <section id="users">
@@ -71,9 +93,35 @@ const Users = () => {
           <option value={100}>100 items</option>
         </select>
       </div>
+
+      {/* Pagination Top */}
+      <div className="pagination-wrapper">
+        {totalPages > 1 && (
+          <div className="pagination">
+            <button onClick={() => handlePageChange(1)} disabled={currentPage === 1}>
+              {"<<"}
+            </button>
+            <button onClick={() => handlePageChange(currentPage - 1)} disabled={currentPage === 1}>
+              {"<"}
+            </button>
+
+            <span className="page-info">
+              Page {currentPage} of {totalPages}
+            </span>
+
+            <button onClick={() => handlePageChange(currentPage + 1)} disabled={currentPage === totalPages}>
+              {">"}
+            </button>
+            <button onClick={() => handlePageChange(totalPages)} disabled={currentPage === totalPages}>
+              {">>"}
+            </button>
+          </div>
+        )}
+      </div>
+
       <div id="user-list">
-        {filteredUsers.length > 0 ? (
-          filteredUsers.map((user) => (
+        {currentUsers.length > 0 ? (
+          currentUsers.map((user) => (
             <div key={user._id} className="user-card">
               <p><strong>{user.username}</strong></p>
               <p>Email: {user.email}</p>
@@ -89,6 +137,31 @@ const Users = () => {
           ))
         ) : (
           <p>No users found.</p>
+        )}
+      </div>
+
+      {/* Pagination Bottom */}
+      <div className="pagination-wrapper">
+        {totalPages > 1 && (
+          <div className="pagination">
+            <button onClick={() => handlePageChange(1)} disabled={currentPage === 1}>
+              {"<<"}
+            </button>
+            <button onClick={() => handlePageChange(currentPage - 1)} disabled={currentPage === 1}>
+              {"<"}
+            </button>
+
+            <span className="page-info">
+              Page {currentPage} of {totalPages}
+            </span>
+
+            <button onClick={() => handlePageChange(currentPage + 1)} disabled={currentPage === totalPages}>
+              {">"}
+            </button>
+            <button onClick={() => handlePageChange(totalPages)} disabled={currentPage === totalPages}>
+              {">>"}
+            </button>
+          </div>
         )}
       </div>
     </section>

@@ -1,94 +1,91 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import Modal from '../Modal/Modal';  // Import Modal
 import './Destinations.css';
-import { FaEdit, FaTrashAlt, FaPlus } from 'react-icons/fa'; // Importing icons for edit, delete, and add
 
 const Destinations = () => {
-  const [search, setSearch] = useState(""); // State untuk pencarian
-  const [destinations, setDestinations] = useState([]); // State untuk menyimpan destinasi
-  const [filteredDestinations, setFilteredDestinations] = useState([]); // State untuk destinasi yang sudah difilter
-  const [showModal, setShowModal] = useState(false); // Untuk kontrol visibilitas modal
-  const [currentDestination, setCurrentDestination] = useState(null); // Untuk menyimpan destinasi yang sedang diedit
-  const [itemsPerPage, setItemsPerPage] = useState(10); // State untuk kontrol jumlah data yang ditampilkan
+  const [search, setSearch] = useState("");
+  const [destinations, setDestinations] = useState([]);
+  const [filteredDestinations, setFilteredDestinations] = useState([]);
+  const [displayedDestinations, setDisplayedDestinations] = useState([]); // untuk data yang dipagination
+  const [itemsPerPage, setItemsPerPage] = useState(10);
+  const [currentPage, setCurrentPage] = useState(1);
 
-  // Mengambil data destinasi dari API
+  // Ambil data dari API
   useEffect(() => {
     async function fetchDestinations() {
       try {
-        const response = await axios.get('https://kanto-backend.up.railway.app/destinations');
-        setDestinations(response.data); // Simpan data ke state destinations
-        setFilteredDestinations(response.data.slice(0, itemsPerPage)); // Setel filteredDestinations dengan data awal
+        const response = await axios.get('https://ml-kanto.up.railway.app/destinations');
+        const data = response.data;
+
+        if (Array.isArray(data.destinations)) {
+          const fetchedDestinations = data.destinations;
+
+          const existingDestinationsResponse = await axios.get('https://kanto-backend.up.railway.app/destinations');
+          const existingDestinations = existingDestinationsResponse.data;
+
+          const newDestinations = fetchedDestinations.filter(
+            (dest) => !existingDestinations.some((exist) => exist.name === dest.name)
+          );
+
+          if (newDestinations.length > 0) {
+            await axios.post('https://kanto-backend.up.railway.app/add-destinations', {
+              destinations: newDestinations,
+            });
+            console.log("New destinations added to MongoDB!");
+          }
+
+          const allDestinations = [...existingDestinations, ...newDestinations];
+          setDestinations(allDestinations);
+          setFilteredDestinations(allDestinations);
+          setCurrentPage(1);
+        } else {
+          console.error('Destinations data is not an array:', data.destinations);
+        }
       } catch (error) {
         console.error('Error fetching destinations:', error);
       }
     }
 
     fetchDestinations();
-  }, [itemsPerPage]); // Mengupdate ketika jumlah item per halaman berubah
+  }, []);
 
-  // Fungsi untuk menangani perubahan input pencarian
+  // Pagination: update displayedDestinations ketika filteredDestinations, currentPage, atau itemsPerPage berubah
+  useEffect(() => {
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
+    setDisplayedDestinations(filteredDestinations.slice(startIndex, endIndex));
+  }, [filteredDestinations, currentPage, itemsPerPage]);
+
+  // Scroll ke atas setiap kali currentPage berubah
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, [currentPage]);
+
   const handleSearchChange = (e) => {
     const searchTerm = e.target.value.toLowerCase();
     setSearch(searchTerm);
 
-    // Filter destinasi berdasarkan pencarian
     const filtered = destinations.filter(
       (dest) =>
         dest.name.toLowerCase().includes(searchTerm) ||
         dest.location.toLowerCase().includes(searchTerm)
     );
-    setFilteredDestinations(filtered.slice(0, itemsPerPage)); // Update filteredDestinations
+
+    setFilteredDestinations(filtered);
+    setCurrentPage(1);
   };
 
-  // Fungsi untuk menampilkan modal
-  const handleAddDestination = () => {
-    setShowModal(true); // Menampilkan modal untuk menambah destinasi
-    setCurrentDestination(null); // Pastikan modal kosong untuk menambah
-  };
-
-  // Fungsi untuk menampilkan modal dengan data destinasi yang akan diedit
-  const handleEditDestination = (destination) => {
-    setShowModal(true); // Menampilkan modal untuk edit destinasi
-    setCurrentDestination(destination); // Set data destinasi yang akan diedit
-  };
-
-  // Fungsi untuk menutup modal setelah destinasi ditambahkan atau diupdate
-  const closeModal = () => {
-    setShowModal(false);
-  };
-
-  // Fungsi untuk memperbarui destinasi setelah di edit
-  const updateDestination = (updatedDestination) => {
-    const updatedDestinations = destinations.map((destination) =>
-      destination._id === updatedDestination._id ? updatedDestination : destination
-    );
-    setDestinations(updatedDestinations);
-    setFilteredDestinations(updatedDestinations);
-  };
-
-  const addNewDestination = (newDestination) => {
-    setDestinations([...destinations, newDestination]);
-    setFilteredDestinations([...filteredDestinations, newDestination]);
-  };
-
-  // Fungsi untuk menangani perubahan jumlah destinasi yang ditampilkan
   const handleItemsPerPageChange = (e) => {
-    setItemsPerPage(Number(e.target.value)); // Update jumlah item per halaman
+    const newItemsPerPage = Number(e.target.value);
+    setItemsPerPage(newItemsPerPage);
+    setCurrentPage(1);
   };
 
-  // Fungsi untuk menghapus destinasi
-  const handleDelete = (id) => {
-    // Hapus destinasi dari backend
-    axios.delete(`https://kanto-backend.up.railway.app/destinations/${id}`)
-      .then((response) => {
-        setDestinations(destinations.filter(dest => dest._id !== id));  // Update state destinasi
-        setFilteredDestinations(filteredDestinations.filter(dest => dest._id !== id));  // Update filteredDestinations
-        console.log('Destination deleted:', response.data);
-      })
-      .catch(error => {
-        console.error('Error deleting destination:', error);
-      });
+  const totalPages = Math.ceil(filteredDestinations.length / itemsPerPage);
+
+  const handlePageChange = (pageNumber) => {
+    if (pageNumber < 1 || pageNumber > totalPages) return;
+    setCurrentPage(pageNumber);
   };
 
   return (
@@ -107,14 +104,34 @@ const Destinations = () => {
           <option value={50}>50 items</option>
           <option value={100}>100 items</option>
         </select>
-        {/* Add Destination Button */}
-        <button className="add-destination-btn" onClick={handleAddDestination}>
-          <FaPlus />
-        </button>
+      </div>
+      {/* Pagination Wrapper */}
+      <div className="pagination-wrapper">
+        {totalPages > 1 && (
+          <div className="pagination">
+            <button onClick={() => handlePageChange(1)} disabled={currentPage === 1}>
+              {"<<"}
+            </button>
+            <button onClick={() => handlePageChange(currentPage - 1)} disabled={currentPage === 1}>
+              {"<"}
+            </button>
+
+            <span className="page-info">
+              Page {currentPage} of {totalPages}
+            </span>
+
+            <button onClick={() => handlePageChange(currentPage + 1)} disabled={currentPage === totalPages}>
+              {">"}
+            </button>
+            <button onClick={() => handlePageChange(totalPages)} disabled={currentPage === totalPages}>
+              {">>"}
+            </button>
+          </div>
+        )}
       </div>
       <div id="destination-list">
-        {filteredDestinations.length > 0 ? (
-          filteredDestinations.map((destination) => (
+        {displayedDestinations.length > 0 ? (
+          displayedDestinations.map((destination) => (
             <div key={destination._id} className="destination-card">
               <div className="destination-info">
                 <h3>{destination.name}</h3>
@@ -122,22 +139,38 @@ const Destinations = () => {
                 <p>{destination.city}</p>
                 <p>Rating: {destination.rating}</p>
               </div>
-              <div className="destination-actions">
-                <button className='btn-dst' onClick={() => handleEditDestination(destination)}>
-                  <FaEdit />
-                </button>
-                <button className='btn-dst' onClick={() => handleDelete(destination._id)}>
-                  <FaTrashAlt />
-                </button>
-              </div>
+              {/* Tidak ada tombol aksi */}
             </div>
           ))
         ) : (
           <p className="no-destination">No destinations found.</p>
         )}
       </div>
-      {/* Render modal */}
-      {showModal && <Modal type={currentDestination ? 'edit' : 'add'} destination={currentDestination} onClose={closeModal} updateDestination={updateDestination} addNewDestination={addNewDestination} />}
+
+      {/* Pagination Wrapper */}
+      <div className="pagination-wrapper">
+        {totalPages > 1 && (
+          <div className="pagination">
+            <button onClick={() => handlePageChange(1)} disabled={currentPage === 1}>
+              {"<<"}
+            </button>
+            <button onClick={() => handlePageChange(currentPage - 1)} disabled={currentPage === 1}>
+              {"<"}
+            </button>
+
+            <span className="page-info">
+              Page {currentPage} of {totalPages}
+            </span>
+
+            <button onClick={() => handlePageChange(currentPage + 1)} disabled={currentPage === totalPages}>
+              {">"}
+            </button>
+            <button onClick={() => handlePageChange(totalPages)} disabled={currentPage === totalPages}>
+              {">>"}
+            </button>
+          </div>
+        )}
+      </div>
     </section>
   );
 };
