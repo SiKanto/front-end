@@ -1,0 +1,121 @@
+/* General Destinations styles */
+#destinations {
+  padding: 20px;
+  background-color: var(--background-color);
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  height: 620px;
+  overflow-y: auto;
+  margin-top: 70px;
+  margin-left: 250px;
+}
+
+#destinations h2 {
+  font-size: 28px;
+  color: var(--accent-color);
+  margin-bottom: 20px;
+  font-weight: bold;
+}
+
+/* Search and Sort section */
+.search-sort {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+#search {
+  padding: 12px 20px;
+  font-size: 16px;
+  border-radius: 50px;
+  border: 1px solid var(--primary-color);
+  box-shadow: 0px 4px 6px rgba(255, 0, 0, 0.1);
+  width: 70%;
+}
+
+select {
+  padding: 12px;
+  margin-left: 10px;
+  font-size: 16px;
+  border-radius: 8px;
+  border: 1px solid var(--primary-color);
+  box-shadow: 0px 4px 6px rgba(255, 0, 0, 0.1);
+  width: 25%;
+}
+
+/* Add Destination Button */
+.add-destination-btn {
+  background-color: var(--background-color);
+  color: var(--primary-color);
+  padding: 10px; /* Adjust padding for icon only button */
+  font-size: 20px; /* Icon size */
+  border: 1px solid var(--primary-color);
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 50px;
+  height: 50px;
+  margin-left: 10px; /* Spacing between the dropdown and the button */
+}
+
+.add-destination-btn:hover {
+  background-color: var(--primary-color);
+  color: white;
+  border: 1px solid var(--primary-color);
+}
+
+/* Destination List Styling */
+#destination-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.destination-card {
+  background-color: var(--background-color);
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.destination-info {
+  flex-grow: 1;
+}
+
+.destination-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.btn-dst {
+  background-color: transparent;
+  padding: 15px;
+  font-size: 20px;
+  color: var(--seccond-color);
+  border-radius: 50%;
+  cursor: pointer;
+  width: 50px;
+  height: 50px;
+  transition: background-color 0.3s ease;
+  border: none;
+}
+
+.btn-dst:hover {
+  background-color: transparent;
+  color: var(--primary-color);
+  border: none;
+}
+
+/* No Destination message */
+.no-destination {
+  font-size: 18px;
+  color: #888;
+  text-align: center;
+}

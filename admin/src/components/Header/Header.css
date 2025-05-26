@@ -1,0 +1,38 @@
+/* Header Styling */
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 30px;
+  background-color: var(--background-color);
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000; /* Pastikan header berada di atas */
+  height: 70px; /* Tinggi header */
+}
+
+header .logo img {
+  height: 34px;
+}
+
+header .logout button {
+  font-size: 16px;
+  margin-top: 0px;
+  padding: 8px 16px;
+  background-color: var(--background-color);
+  color: var(--primary-color);
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  border: 1px solid var(--primary-color);
+}
+
+header .logout button:hover {
+  background-color: var(--primary-color);
+  color: white;
+  border: 1px solid var(--primary-color);
+}

@@ -1,0 +1,49 @@
+/* General Dashboard styles */
+#dashboard {
+  padding: 20px;
+  background-color: var(--background-color);
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  margin-top: 70px;
+  margin-left: 250px;
+}
+
+#dashboard h2 {
+  font-size: 28px;
+  color: var(--accent-color);
+  margin-bottom: 20px;
+  font-weight: bold;
+}
+
+.stats {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.stat-item {
+  background-color: var(--primary-color);
+  padding: 20px;
+  border-radius: 8px;
+  width: 30%;
+  box-shadow: 0px 4px 8px rgba(255, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.stat-item:hover {
+  transform: scale(1.05);
+  box-shadow: 0px 8px 16px rgba(255, 0, 0, 0.2);
+}
+
+.stat-item h3 {
+  font-size: 20px;
+  color: var(--background-color);
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+
+.stat-item p {
+  font-size: 24px;
+  color: var(--background-color);
+  font-weight: bold;
+}
