@@ -1,4 +1,3 @@
-// AuthContext.js
 import React, { createContext, useState, useContext } from 'react';
 
 // Membuat Context untuk autentikasi
