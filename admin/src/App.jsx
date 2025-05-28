@@ -40,7 +40,7 @@ const App = () => {
             <Sidebar />
           </div>
         )}
-        <div className="flex-1 p-6 overflow-y-auto ml-64">
+        <div className="flex-1 p-6 overflow-y-auto">
           <Routes>
             {/* Halaman login dan register tidak menampilkan sidebar */}
             <Route

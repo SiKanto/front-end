@@ -18,11 +18,12 @@ const Dashboard = () => {
       const destinationsResponse = await axios.get('https://kanto-backend.up.railway.app/destinations');
       const usersResponse = await axios.get('https://kanto-backend.up.railway.app/users');
       const ticketsResponse = await axios.get('https://kanto-backend.up.railway.app/tickets');
+      console.log(usersResponse.data)
 
       // Ambil jumlah destinasi, pengguna, dan tiket
       const destinationsCount = destinationsResponse.data.length;
       const usersCount = usersResponse.data.length;
-      const ticketsCount = ticketsResponse.data.length;
+      const ticketsCount = Array.isArray(ticketsResponse.data.tickets) ? ticketsResponse.data.tickets.length : 0;
 
       // Misalnya data destinationsData diambil dari API dan dihitung berdasarkan jumlah peminat
       const destinationsData = destinationsResponse.data.map(destination => ({
@@ -36,9 +37,9 @@ const Dashboard = () => {
         .slice(0, 10); // Ambil 10 teratas
 
       setStats({
-        totalDestinations: destinationsCount,
-        totalUsers: usersCount,
-        totalTickets: ticketsCount,
+        totalDestinations: destinationsCount ? destinationsCount : 0,
+        totalUsers: usersCount ? usersCount : 0,
+        totalTickets: ticketsCount ? ticketsCount : 0,
         destinationsData: topDestinations
       });
     } catch (error) {
@@ -65,7 +66,7 @@ const Dashboard = () => {
   };
 
   return (
-    <div className="p-6 bg-white shadow-lg rounded-lg">
+    <div className="p-6 bg-white shadow-lg rounded-lg ml-64">
       <h2 className="text-3xl font-bold text-[#860000] mb-6">Dashboard</h2>
       <div className="flex justify-between gap-5">
         <div className="bg-[#DC0000] text-white p-6 rounded-lg shadow-md w-1/3 hover:scale-105 hover:shadow-xl transition-all">

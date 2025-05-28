@@ -21,20 +21,23 @@ const Register = () => {
   const handleRegister = async (e) => {
     e.preventDefault();
 
+    // Membuat username dengan menggabungkan firstName dan lastName, lalu menambahkan angka acak
+    const username = `${firstName}${lastName}`.toLowerCase() + Math.floor(Math.random() * 1000);
+
     try {
-      const response = await axios.post(
-        "https://kanto-backend.up.railway.app/admin/create",
+      const response = await axios.post("https://kanto-backend.up.railway.app/admin/create",  // Pastikan endpoint sesuai
         {
           firstName,
           lastName,
           email,
           password,
+          username,  // Mengirimkan username yang sudah digenerate
         }
       );
 
-      if (response.data && response.data.success) {
+      if (response.data && response.data.message === "Admin created successfully") {
         setMessage("Admin created successfully!");
-        history("/login");
+        history("/login");  // Redirect ke halaman login setelah registrasi
       } else {
         setMessage(response.data.message || "Something went wrong!");
       }
@@ -47,7 +50,7 @@ const Register = () => {
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-[#f4f4f9] px-4">
+    <div className="flex justify-center items-center mt-8 bg-[#f4f4f9] px-4">
       <div className="flex w-full max-w-screen-lg gap-16">
         {/* Form Register */}
         <div className="w-full md:w-1/2 p-8 rounded-lg">

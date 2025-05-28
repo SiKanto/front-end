@@ -71,7 +71,7 @@ const Users = () => {
   };
 
   return (
-    <section className="p-6 bg-white shadow-lg rounded-lg">
+    <section className="p-6 bg-white shadow-lg rounded-lg ml-64">
       <h2 className="text-3xl font-bold text-[#860000] mb-4">Users</h2>
       <div className="flex justify-between mb-6">
         <input

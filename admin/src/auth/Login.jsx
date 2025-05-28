@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash, faEnvelope } from '@fortawesome/free-solid-svg-icons';
 
 const Login = ({ onLogin }) => {
+  localStorage.clear();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [message, setMessage] = useState('');
@@ -12,10 +13,12 @@ const Login = ({ onLogin }) => {
   const history = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
 
+  // Toggle visibility of password
   const togglePasswordEye = () => {
     setShowPassword(!showPassword);
   };
 
+  // When the component mounts, check if 'rememberMe' was previously selected
   useEffect(() => {
     const savedEmail = localStorage.getItem('email');
     const savedPassword = localStorage.getItem('password');
@@ -25,9 +28,12 @@ const Login = ({ onLogin }) => {
       setEmail(savedEmail);
       setPassword(savedPassword);
       setRememberMe(true);
+    } else {
+      setRememberMe(false);  // Ensure it is unchecked by default if nothing is saved
     }
   }, []);
 
+  // Handle login submission
   const handleLogin = async (e) => {
     e.preventDefault();
 
@@ -63,7 +69,7 @@ const Login = ({ onLogin }) => {
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-[#f4f4f9] px-4">
+    <div className="flex justify-center items-center mt-8 bg-[#f4f4f9] px-4">
       <div className="flex w-full max-w-screen-lg gap-16">
         {/* Form Login */}
         <div className="w-full md:w-1/2 p-8 items-center mt-4 rounded-lg">
@@ -126,7 +132,7 @@ const Login = ({ onLogin }) => {
         </div>
 
         {/* Bagian Kanan untuk Logo dan Deskripsi */}
-        <div className="w-[490px] h-[519px] p-8 bg-[#fff] text-white rounded-lg flex flex-col items-center justify-center shadow-md">
+        <div className="w-[490px] h-[519px] p-8 bg-[#fff] text-white rounded-lg flex flex-col items-center justify-center shadow-lg">
           <img
             src="/icon-red192.png"
             alt="Kanto Logo"
