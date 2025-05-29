@@ -97,8 +97,8 @@ const Destinations = () => {
   };
 
   return (
-    <section id="destinations" className="p-5 bg-white shadow-lg rounded-lg ml-64">
-      <h2 className="text-3xl font-bold text-[#860000] mb-4">Destinations</h2>
+    <section id="destinations" className="p-5 bg-white shadow-lg rounded-lg lg:ml-64">
+      <h2 className="text-xl md:text-2xl lg:text-3xl font-bold text-[#860000] mb-4">Destinations</h2>
       <div className="flex justify-between mb-6">
         <input
           type="text"
@@ -106,12 +106,12 @@ const Destinations = () => {
           value={search}
           placeholder="Search destinations..."
           onChange={handleSearchChange}
-          className="p-3 w-3/4 rounded-full border border-[#860000]"
+          className="h-8 lg:h-12 p-3 w-3/4 rounded-full border text-[10px] md:text-sm lg:text-base border-[#860000]"
         />
         <select
           onChange={handleItemsPerPageChange}
           value={itemsPerPage}
-          className="w-1/4 p-3 ml-4 rounded-full border border-[#860000] text-[#860000]"
+          className="h-8 lg:h-12 w-1/4 p-1 ml-4 rounded-full border border-[#860000] text-[10px] md:text-sm lg:text-base text-[#860000]"
         >
           <option value={10}>10 items</option>
           <option value={50}>50 items</option>
@@ -125,31 +125,31 @@ const Destinations = () => {
           <button
             onClick={() => handlePageChange(1)}
             disabled={currentPage === 1}
-            className="px-4 py-2 bg-transparent border border-[#860000] text-[#860000] rounded-md hover:bg-[#860000] hover:text-white transition-all"
+            className="px-2 lg:px-4 py-0 lg:py-2 bg-transparent border border-[#860000] text-[#860000] rounded-md hover:bg-[#860000] hover:text-white transition-all"
           >
             {"<<"}
           </button>
           <button
             onClick={() => handlePageChange(currentPage - 1)}
             disabled={currentPage === 1}
-            className="px-4 py-2 bg-transparent border border-[#860000] text-[#860000] rounded-md hover:bg-[#860000] hover:text-white transition-all"
+            className="px-2 lg:px-4 py-0 lg:py-2 bg-transparent border border-[#860000] text-[#860000] rounded-md hover:bg-[#860000] hover:text-white transition-all"
           >
             {"<"}
           </button>
-          <span className="text-sm font-medium text-[#860000]">
+          <span className="text-[10px] lg:text-sm font-medium text-[#860000]">
             Page {currentPage} of {totalPages}
           </span>
           <button
             onClick={() => handlePageChange(currentPage + 1)}
             disabled={currentPage === totalPages}
-            className="px-4 py-2 bg-transparent border border-[#860000] text-[#860000] rounded-md hover:bg-[#860000] hover:text-white transition-all"
+            className="px-2 lg:px-4 py-0 lg:py-2 bg-transparent border border-[#860000] text-[#860000] rounded-md hover:bg-[#860000] hover:text-white transition-all"
           >
             {">"}
           </button>
           <button
             onClick={() => handlePageChange(totalPages)}
             disabled={currentPage === totalPages}
-            className="px-4 py-2 bg-transparent border border-[#860000] text-[#860000] rounded-md hover:bg-[#860000] hover:text-white transition-all"
+            className="px-2 lg:px-4 py-0 lg:py-2 bg-transparent border border-[#860000] text-[#860000] rounded-md hover:bg-[#860000] hover:text-white transition-all"
           >
             {">>"}
           </button>
@@ -162,15 +162,15 @@ const Destinations = () => {
           displayedDestinations.map((destination) => (
             <div
               key={destination._id}
-              className="bg-[#ffff] p-4 rounded-lg shadow-md flex justify-between items-center"
+              className="bg-[#ffff] p-2 lg:p-4 rounded-lg shadow-md flex justify-between items-center"
             >
               <div className="flex-grow">
-                <h3 className="font-semibold text-lg text-gray-800">
+                <h3 className="font-semibold text-[12px] lg:text-lg text-gray-800">
                   {destination.name}
                 </h3>
-                <p className="text-sm text-gray-600">{destination.location}</p>
-                <p className="text-sm text-gray-600">{destination.city}</p>
-                <p className="text-sm text-gray-600">
+                <p className="text-[10px] lg:text-sm text-gray-600">{destination.location}</p>
+                <p className="text-[10px] lg:text-sm text-gray-600">{destination.city}</p>
+                <p className="text-[10px] lg:text-sm text-gray-600">
                   Rating: {destination.rating}
                 </p>
               </div>
@@ -187,31 +187,31 @@ const Destinations = () => {
           <button
             onClick={() => handlePageChange(1)}
             disabled={currentPage === 1}
-            className="px-4 py-2 bg-transparent border border-[#860000] text-[#860000] rounded-md hover:bg-[#860000] hover:text-white transition-all"
+            className="px-2 lg:px-4 py-0 lg:py-2 bg-transparent border border-[#860000] text-[#860000] rounded-md hover:bg-[#860000] hover:text-white transition-all"
           >
             {"<<"}
           </button>
           <button
             onClick={() => handlePageChange(currentPage - 1)}
             disabled={currentPage === 1}
-            className="px-4 py-2 bg-transparent border border-[#860000] text-[#860000] rounded-md hover:bg-[#860000] hover:text-white transition-all"
+            className="px-2 lg:px-4 py-0 lg:py-2 bg-transparent border border-[#860000] text-[#860000] rounded-md hover:bg-[#860000] hover:text-white transition-all"
           >
             {"<"}
           </button>
-          <span className="text-sm font-medium text-gray-700">
+          <span className="text-[10px] lg:text-sm font-medium text-[#860000]">
             Page {currentPage} of {totalPages}
           </span>
           <button
             onClick={() => handlePageChange(currentPage + 1)}
             disabled={currentPage === totalPages}
-            className="px-4 py-2 bg-transparent border border-[#860000] text-[#860000] rounded-md hover:bg-[#860000] hover:text-white transition-all"
+            className="px-2 lg:px-4 py-0 lg:py-2 bg-transparent border border-[#860000] text-[#860000] rounded-md hover:bg-[#860000] hover:text-white transition-all"
           >
             {">"}
           </button>
           <button
             onClick={() => handlePageChange(totalPages)}
             disabled={currentPage === totalPages}
-            className="px-4 py-2 bg-transparent border border-[#860000] text-[#860000] rounded-md hover:bg-[#860000] hover:text-white transition-all"
+            className="px-2 lg:px-4 py-0 lg:py-2 bg-transparent border border-[#860000] text-[#860000] rounded-md hover:bg-[#860000] hover:text-white transition-all"
           >
             {">>"}
           </button>

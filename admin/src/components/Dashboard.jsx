@@ -18,7 +18,6 @@ const Dashboard = () => {
       const destinationsResponse = await axios.get('https://kanto-backend.up.railway.app/destinations');
       const usersResponse = await axios.get('https://kanto-backend.up.railway.app/users');
       const ticketsResponse = await axios.get('https://kanto-backend.up.railway.app/tickets');
-      console.log(usersResponse.data)
 
       // Ambil jumlah destinasi, pengguna, dan tiket
       const destinationsCount = destinationsResponse.data.length;
@@ -66,26 +65,26 @@ const Dashboard = () => {
   };
 
   return (
-    <div className="p-6 bg-white shadow-lg rounded-lg ml-64">
-      <h2 className="text-3xl font-bold text-[#860000] mb-6">Dashboard</h2>
+    <div className="p-6 bg-white shadow-lg rounded-lg lg:ml-64">
+      <h2 className="text-xl md:text-2xl lg:text-3xl font-bold text-[#860000] mb-6">Dashboard</h2>
       <div className="flex justify-between gap-5">
-        <div className="bg-[#DC0000] text-white p-6 rounded-lg shadow-md w-1/3 hover:scale-105 hover:shadow-xl transition-all">
-          <h3 className="text-lg font-semibold mb-4">Total Destinations</h3>
-          <p className="text-2xl font-bold">{stats.totalDestinations}</p>
+        <div className="bg-[#DC0000] text-white p-3 lg:p-6 rounded-lg h-[100px] lg:h-40 shadow-md w-1/3 hover:scale-105 hover:shadow-xl transition-all">
+          <h3 className="text-sm md:text-base lg:text-3xl font-semibold mb-2 lg:mb-6 text-center">Destinations</h3>
+          <p className="text-lg md:text-xl lg:text-3xl font-bold text-center">{stats.totalDestinations}</p>
         </div>
-        <div className="bg-[#DC0000] text-white p-6 rounded-lg shadow-md w-1/3 hover:scale-105 hover:shadow-xl transition-all">
-          <h3 className="text-lg font-semibold mb-4">Total Users</h3>
-          <p className="text-2xl font-bold">{stats.totalUsers}</p>
+        <div className="bg-[#DC0000] text-white p-3 lg:p-6 rounded-lg h-[100px] lg:h-40 shadow-md w-1/3 hover:scale-105 hover:shadow-xl transition-all">
+          <h3 className="text-sm md:text-base lg:text-3xl font-semibold mb-2 lg:mb-6 text-center">Users</h3>
+          <p className="text-lg md:text-xl lg:text-3xl font-bold text-center">{stats.totalUsers}</p>
         </div>
-        <div className="bg-[#DC0000] text-white p-6 rounded-lg shadow-md w-1/3 hover:scale-105 hover:shadow-xl transition-all">
-          <h3 className="text-lg font-semibold mb-4">Total Tickets Sold</h3>
-          <p className="text-2xl font-bold">{stats.totalTickets}</p>
+        <div className="bg-[#DC0000] text-white p-3 lg:p-6 rounded-lg h-[100px] lg:h-40 shadow-md w-1/3 hover:scale-105 hover:shadow-xl transition-all">
+          <h3 className="text-sm md:text-base lg:text-3xl font-semibold mb-2 lg:mb-5 text-center">Tickets</h3>
+          <p className="text-lg md:text-xl lg:text-3xl font-bold text-center">{stats.totalTickets}</p>
         </div>
       </div>
 
       {/* Grafik Popularitas Destinasi */}
-      <div className="mt-8">
-        <h3 className="text-2xl font-bold mb-4 text-[#860000]">Destinations Popularity</h3>
+      <div className="mt-8 hidden sm:block">
+        <h3 className="text-xl md:text-2xl lg:text-3xl font-bold mb-4 text-[#860000]">Destinations Popularity</h3>
         <Bar data={chartData} />
       </div>
     </div>

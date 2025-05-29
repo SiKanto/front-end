@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Route, Routes, Navigate } from "react-router-dom";
 import { useAuth } from "./Contexts/AuthContext"; // Import useAuth hook
 import LoadingSpinner from "./components/LoadingSpinner";
@@ -15,6 +15,7 @@ import ResetPassword from "./auth/resetPassword";
 
 const App = () => {
   const [loading, setLoading] = useState(false);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false); // State untuk sidebar
   const { isAuthenticated, login } = useAuth(); // Ambil isAuthenticated dan login/logout dari context
 
   const handleLogin = (token) => {
@@ -25,6 +26,28 @@ const App = () => {
     }, 2000); // Simulasi proses login selama 2 detik
   };
 
+  // Fungsi untuk toggle sidebar
+  const toggleSidebar = () => {
+    setIsSidebarOpen((prevState) => !prevState); // Toggle state sidebar dengan prevState untuk pembaruan yang benar
+  };
+
+  // Logika untuk klik di luar sidebar untuk menutup sidebar
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      // Periksa apakah klik terjadi di luar sidebar dan hamburger button
+      if (!event.target.closest(".sidebar") && !event.target.closest(".hamburger") && isSidebarOpen) {
+        setIsSidebarOpen(false); // Menutup sidebar jika klik di luar
+      }
+    };
+    
+    document.addEventListener('mousedown', handleClickOutside);
+    
+    // Membersihkan event listener ketika komponen di-unmount
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [isSidebarOpen]); // Pastikan hanya dipanggil sekali saat isSidebarOpen berubah
+
   // Redirect ke login jika belum terautentikasi
   if (loading) {
     return <LoadingSpinner />;
@@ -32,18 +55,19 @@ const App = () => {
 
   return (
     <div className="flex h-screen">
-      {/* Header with z-index to stay on top */}
-      <Header />
-      <div className="flex-1 flex overflow-hidden pt-16"> {/* Add padding-top to prevent header overlap */}
+      {/* Header dengan z-index untuk tetap di atas */}
+      <Header toggleSidebar={toggleSidebar} />
+      <div className="flex-1 flex overflow-hidden pt-16 h-screen"> {/* Add padding-top untuk mencegah overlap dengan header */}
         {/* Menampilkan sidebar hanya jika sudah login */}
         {isAuthenticated && (
-          <div className="w-64 bg-gray-800 text-white fixed z-10">
-            <Sidebar />
+          <div
+            className={`absolute transition-transform duration-300 ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'} lg:translate-x-0`} // Sidebar dengan animasi
+          >
+            <Sidebar toggleSidebar={toggleSidebar} />
           </div>
         )}
         <div className="flex-1 p-6 overflow-y-auto">
           <Routes>
-            {/* Halaman login dan register tidak menampilkan sidebar */}
             <Route
               path="/login"
               element={
@@ -62,13 +86,11 @@ const App = () => {
             />
             <Route
               path="/destinations"
-              element={
-                isAuthenticated ? (
-                  <Destinations />
-                ) : (
-                  <Navigate to="/login" />
-                )
-              }
+              element={isAuthenticated ? (
+                <Destinations />
+              ) : (
+                <Navigate to="/login" />
+              )}
             />
             <Route
               path="/users"

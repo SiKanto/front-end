@@ -70,10 +70,10 @@ const Login = ({ onLogin }) => {
 
   return (
     <div className="flex justify-center items-center mt-8 bg-[#f4f4f9] px-4">
-      <div className="flex w-full max-w-screen-lg gap-16">
+      <div className="flex w-full max-w-screen-lg gap-16 flex-col lg:flex-row">
         {/* Form Login */}
-        <div className="w-full md:w-1/2 p-8 items-center mt-4 rounded-lg">
-          <h2 className="text-[48px] font-bold text-center mb-6 text-[#333]">Welcome back</h2>
+        <div className="w-full lg:w-1/2 p-8 items-center mt-4 rounded-lg mx-auto">
+          <h2 className="text-[32px] md:text-[42px] lg:text-[48px] font-bold text-center mb-6 text-[#333]">Welcome back</h2>
           <form onSubmit={handleLogin}>
             <div className="relative mb-6">
               <input
@@ -132,7 +132,7 @@ const Login = ({ onLogin }) => {
         </div>
 
         {/* Bagian Kanan untuk Logo dan Deskripsi */}
-        <div className="w-[490px] h-[519px] p-8 bg-[#fff] text-white rounded-lg flex flex-col items-center justify-center shadow-lg">
+        <div className="w-[490px] h-[519px] p-8 bg-[#fff] text-white rounded-lg flex-col items-center justify-center shadow-lg hidden lg:flex">
           <img
             src="/icon-red192.png"
             alt="Kanto Logo"
