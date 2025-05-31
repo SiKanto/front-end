@@ -1,8 +1,16 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Logo from "../assets/images/logo-kanto-red.png";
 import "../styles/navbar.css";
 
 export default function Navbar() {
+  const history = useNavigate();
+  const isLoggedIn = localStorage.getItem('token');
+
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    history('/login');
+  };
+
   return (
     <header className="navbar">
       <div className="navbar-container">
@@ -20,10 +28,16 @@ export default function Navbar() {
 
         {/* Auth Buttons */}
         <div className="navbar-actions">
-          <Link to="/signup" className="signup-link">Sign up</Link>
-          <Link to="/login">
-            <button className="login-button">Login</button>
-          </Link>
+          {!isLoggedIn ? (
+            <>
+              <Link to="/signup" className="signup-link">Sign up</Link>
+              <Link to="/login">
+                <button className="login-button">Login</button>
+              </Link>
+            </>
+          ) : (
+            <button onClick={handleLogout} className="logout-button">Logout</button>
+          )}
         </div>
       </div>
     </header>

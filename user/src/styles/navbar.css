@@ -70,7 +70,8 @@
   text-decoration: underline;
 }
 
-.login-button {
+.login-button,
+.logout-button {
   background-color: var(--color-thunderbird-600);
   color: white;
   font-size: var(--text-sm);
@@ -83,6 +84,7 @@
   font-family: var(--font-poppins);
 }
 
-.login-button:hover {
+.login-button:hover,
+.logout-button:hover {
   background-color: var(--color-thunderbird-700);
 }
