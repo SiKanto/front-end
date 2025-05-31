@@ -8,6 +8,7 @@ const ResetPassword: React.FC = () => {
   const [email, setEmail] = useState<string>('');
   const [newPassword, setNewPassword] = useState<string>('');
   const [message, setMessage] = useState<string>('');
+  const [messageType, setMessageType] = useState<string>(''); // 'success' or 'error'
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [step, setStep] = useState<number>(1); // Step 1: Email, Step 2: New Password
   const history = useNavigate();
@@ -27,6 +28,7 @@ const ResetPassword: React.FC = () => {
       if (response.data.exists) {
         setStep(2); // Move to the next step to reset password
         setMessage(''); // Clear previous message
+        setMessageType(''); // Clear message type
       } else {
         setMessage('Email not found. Please check and try again.');
       }
@@ -44,40 +46,43 @@ const ResetPassword: React.FC = () => {
 
       if (response.status === 200 && response.data.message === "Password reset successful") {
         setMessage('Password reset successful');
+        setMessageType('success');
         setTimeout(() => {
           history('/login'); // Redirect to login page after successful password reset
         }, 2000);
       } else {
         setMessage('Failed to reset password. Please try again.');
+        setMessageType('error');
       }
     } catch (error) {
       setMessage('Error resetting password.');
+      setMessageType('error');
     }
   };
 
   return (
-    <div className="flex justify-center items-center mt-8 bg-[#f4f4f9] px-4">
-      <div className="flex w-full max-w-screen-lg gap-16">
+    <div className="container-login">
+      <div className="container-login-in">
         {/* Form Reset Password */}
-        <div className="w-full md:w-1/2 p-8 items-center mt-4 rounded-lg">
-          <h2 className="text-[48px] font-bold text-center mb-6 text-[#333]">Reset Password</h2>
+        <div className="container-form-login">
+          <h2 className="h2-login">Reset Password</h2>
 
           {step === 1 && (
             <form onSubmit={handleEmailSubmit}>
-              <div className="relative mb-6">
+              <div className="form-login">
                 <input
-                  className="w-full h-[41px] p-4 pr-12 border border-[#ddd] rounded-full focus:outline-none focus:ring-2 focus:ring-[#DC0000] transition-colors"
+                  className="input-login"
                   type="email"
                   placeholder="Enter your email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required
                 />
-                <span className="absolute top-1/2 right-4 transform -translate-y-1/2">
+                <span className="icon-login">
                   <FontAwesomeIcon icon={faEnvelope} />
                 </span>
               </div>
-              <button className="w-full h-[41px] p-0 bg-[#fff] text-[#DC0000] border border-[#DC0000] rounded-full hover:bg-[#DC0000] hover:text-[#fff] transition-colors">
+              <button className="btn-login">
                 Lanjut
               </button>
             </form>
@@ -85,9 +90,9 @@ const ResetPassword: React.FC = () => {
 
           {step === 2 && (
             <form onSubmit={handlePasswordSubmit}>
-              <div className="relative mb-6">
+              <div className="form-login">
                 <input
-                  className="w-full h-[41px] p-4 pr-12 border border-[#ddd] rounded-full focus:outline-none focus:ring-2 focus:ring-[#DC0000] transition-colors"
+                  className="input-login"
                   type={showPassword ? 'text' : 'password'}
                   placeholder="New Password"
                   value={newPassword}
@@ -95,37 +100,37 @@ const ResetPassword: React.FC = () => {
                   required
                 />
                 <span
-                  className="absolute top-1/2 right-4 transform -translate-y-1/2 cursor-pointer"
+                  className="icon-password"
                   onClick={togglePasswordEye}
                 >
                   <FontAwesomeIcon icon={showPassword ? faEye : faEyeSlash} />
                 </span>
               </div>
-              <button className="w-full h-[41px] p-0 bg-[#fff] text-[#DC0000] border border-[#DC0000] rounded-full hover:bg-[#DC0000] hover:text-[#fff] transition-colors">
+              <button className="btn-login">
                 Ganti Password
               </button>
             </form>
           )}
 
-          {message && <p className="text-red-500 text-center mt-4">{message}</p>}
+          {message && <p className={`message ${messageType === 'success' ? 'success-message' : 'error-message'}`}>{message}</p>}
 
-          <p className="text-center mt-4 text-[#6D6D6D]">
+          <p className="signup-prompt">
             Remember your password?{' '}
-            <a href="/login" className="text-[#000] hover:text-[#DC0000]">
+            <a href="/login" className="signup-link">
               Go back to Login
             </a>
           </p>
         </div>
 
         {/* Logo and Description Section */}
-        <div className="w-[490px] h-[519px] p-8 bg-[#fff] text-white rounded-lg flex flex-col items-center justify-center shadow-lg">
+        <div className="logo-description">
           <img
-            src="/icon-red192.png"
+            src="/src/assets/images/icon-red192.png"
             alt="Kanto Logo"
             className="mb-4 w-[150px] mx-auto"
           />
-          <h2 className="text-[30px] font-bold mb-2 text-center text-[#333]">Welcome to Kanto</h2>
-          <p className="text-center text-[#333]">Your journey starts here</p>
+          <h2 className="welcome-text">Welcome to Kanto</h2>
+          <p className="tagline">Your journey starts here</p>
         </div>
       </div>
     </div>

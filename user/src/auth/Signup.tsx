@@ -3,12 +3,14 @@ import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faIdCard, faEnvelope, faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
+import '../styles/login.css';
 
 const Signup: React.FC = () => {
   const [firstName, setFirstName] = useState<string>("");
   const [lastName, setLastName] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+  const [messageType, setMessageType] = useState<string>(''); // 'success' or 'error'
   const [message, setMessage] = useState<string>("");
   const history = useNavigate();
   const [showPassword, setShowPassword] = useState<boolean>(false);
@@ -18,129 +20,135 @@ const Signup: React.FC = () => {
     setShowPassword(!showPassword);
   };
 
-  const handleRegister = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    // Generate username by concatenating firstName and lastName, then adding a random number
+    // Create username by combining firstName and lastName, adding a random number
     const username = `${firstName}${lastName}`.toLowerCase() + Math.floor(Math.random() * 1000);
 
     try {
-      const response = await axios.post(
-        "https://kanto-backend.up.railway.app/users/register",  // Ensure the endpoint is correct
+      const response = await axios.post("https://kanto-backend.up.railway.app/admin/create", 
         {
           firstName,
           lastName,
           email,
           password,
-          username,  // Send the generated username
+          username,
         }
       );
 
       if (response.data && response.data.message === "Admin created successfully") {
         setMessage("Admin created successfully!");
-        history("/login");  // Redirect to login page after successful registration
+        setMessageType('success');
+        history("/login");  // Redirect to login page after registration
       } else {
         setMessage(response.data.message || "Something went wrong!");
+        setMessageType('error');
       }
-    } catch (error: any) {
-      setMessage(
-        error.response?.data?.message ||
+    } catch (error: unknown) {
+      if (axios.isAxiosError(error)) {
+        // AxiosError handling
+        setMessage(
+          error.response?.data?.message || // Check if the response has a message
+          error.message ||  // If not, fallback to the generic message
           "An error occurred during registration."
-      );
+        );
+        setMessageType('error');
+      } else {
+        // Fallback for non-AxiosError cases
+        setMessage("An unexpected error occurred.");
+        setMessageType('error');
+      }
     }
   };
 
   return (
-    <div className="flex justify-center items-center mt-8 bg-[#f4f4f9] px-4">
-      <div className="flex w-full max-w-screen-lg gap-16">
-        {/* Registration Form */}
-        <div className="w-full md:w-1/2 p-8 rounded-lg">
-          <h2 className="text-[48px] font-bold text-center mb-6 text-[#333]">
-            Welcome to Kanto
-          </h2>
-          {message && <p className="text-red-500 text-center">{message}</p>}
-          <p className="text-center mb-6">
+    <div className="container-login">
+      <div className="container-login-in">
+        {/* Form Register */}
+        <div className="container-form-login">
+          <h2 className="h2-login">Welcome to Kanto</h2>
+          {message && <p className={`message ${messageType === 'success' ? 'success-message' : 'error-message'}`}>{message}</p>}
+          <p className="signup-prompt">
             Already have an account?{" "}
-            <Link to="/login" className="text-[#DC0000]">
+            <Link to="/login" className="signup-link">
               Log in
             </Link>
           </p>
           <form onSubmit={handleRegister}>
-            <div className="flex gap-x-4 mb-4 relative">
+            <div className="input-group">
               {/* First Name Input */}
-              <div className="relative w-1/2">
+              <div className="form-login">
                 <input
-                  className="w-full h-[41px] p-3 pr-12 border border-[#ddd] rounded-full focus:outline-none focus:ring-2 focus:ring-[#DC0000]"
+                  className="input-registers"
                   type="text"
                   placeholder="First name"
                   value={firstName}
                   onChange={(e) => setFirstName(e.target.value)}
                   required
                 />
-                <span className="absolute top-1/2 right-4 transform -translate-y-1/2">
+                <span className="icon-login">
                   <FontAwesomeIcon icon={faIdCard} />
                 </span>
               </div>
 
               {/* Last Name Input */}
-              <div className="relative w-1/2">
+              <div className="form-login">
                 <input
-                  className="w-full h-[41px] p-3 pr-12 border border-[#ddd] rounded-full focus:outline-none focus:ring-2 focus:ring-[#DC0000]"
+                  className="input-register"
                   type="text"
                   placeholder="Last name"
                   value={lastName}
                   onChange={(e) => setLastName(e.target.value)}
                   required
                 />
-                <span className="absolute top-1/2 right-4 transform -translate-y-1/2">
+                <span className="icon-login">
                   <FontAwesomeIcon icon={faIdCard} />
                 </span>
               </div>
             </div>
-            <div className="relative mb-4">
+
+            <div className="form-login">
               <input
-                className="w-full h-[41px] p-3 mb-6 border border-[#ddd] rounded-full focus:outline-none focus:ring-2 focus:ring-[#DC0000]"
+                className="input-login"
                 type="email"
                 placeholder="Email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
               />
-              <span className="absolute top-5 right-4 transform -translate-y-1/2">
+              <span className="icon-login">
                 <FontAwesomeIcon icon={faEnvelope} />
               </span>
             </div>
-            <div className="relative mb-6">
+
+            <div className="form-login">
               <input
-                className="w-full h-[41px] p-3 mb-6 border border-[#ddd] rounded-full focus:outline-none focus:ring-2 focus:ring-[#DC0000]"
+                className="input-login"
                 type={showPassword ? 'text' : 'password'}
                 placeholder="Password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
               />
-              <span
-                className="absolute top-5 right-4 transform -translate-y-1/2 cursor-pointer"
-                onClick={togglePasswordEye}
-              >
+              <span className="icon-password" onClick={togglePasswordEye}>
                 <FontAwesomeIcon icon={showPassword ? faEye : faEyeSlash} />
               </span>
             </div>
-            <button className="w-full h-[41px] bg-[#fff] text-[#DC0000] border border-[#DC0000] rounded-full hover:bg-[#DC0000] hover:text-[#fff] focus:outline-none focus:ring-2 focus:ring-[#DC0000]">
-              Sign up
-            </button>
+
+            <button className="btn-login">Sign up</button>
           </form>
         </div>
 
-        {/* Logo and Description Section */}
-        <div className="w-[490px] h-[519px] p-8 bg-[#fff] shadow-lg text-white rounded-lg flex flex-col items-center justify-center">
+        {/* Right Side - Logo and Description */}
+        <div className="logo-description">
           <img
-            src="/icon-red192.png"
+            src="/src/assets/images/icon-red192.png"
             alt="Kanto Logo"
-            className="mb-4 w-[150px] mx-auto"
+            className="logo"
           />
-          <h2 className="text-[30px] font-bold mb-2 text-center text-[#333]">Welcome to Kanto</h2>
-          <p className="text-center text-[#333]">Your journey starts here</p>
+          <h2 className="welcome-text">Welcome to Kanto</h2>
+          <p className="tagline">Your journey starts here</p>
         </div>
       </div>
     </div>
