@@ -1,3 +1,6 @@
+@import './variables.css';
+@import './fonts.css';
+
 .footer {
   background-color: var(--color-thunderbird-600);
   padding: 2rem 1.5rem;

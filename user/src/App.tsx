@@ -15,22 +15,21 @@ export default function App() {
     console.log('Logged in with token:', token);
   };
 
-  const handleLogout = () => {
-    // Remove token on logout
-    localStorage.removeItem("token");
-    setToken(null);
-    console.log('Logged out');
-  };
-
   return (
     <>
+      {token ? (
+        <Routes>
+          <Route path="/" element={<Home />} />
+          {/* other protected routes */}
+        </Routes>
+      ) : (
       <Routes>
-        <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login onLogin={handleLogin} />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/reset-password" element={<Reset/>} />
         {/* Additional routes can be added here */}
       </Routes>
+      )}
     </>
   );
 }

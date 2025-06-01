@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEnvelope, faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const ResetPassword: React.FC = () => {
   const [email, setEmail] = useState<string>('');
@@ -116,9 +116,7 @@ const ResetPassword: React.FC = () => {
 
           <p className="signup-prompt">
             Remember your password?{' '}
-            <a href="/login" className="signup-link">
-              Go back to Login
-            </a>
+            <Link to="/login" className="forgot">Go back to login</Link>
           </p>
         </div>
 
@@ -127,7 +125,7 @@ const ResetPassword: React.FC = () => {
           <img
             src="/src/assets/images/icon-red192.png"
             alt="Kanto Logo"
-            className="mb-4 w-[150px] mx-auto"
+            className="logo"
           />
           <h2 className="welcome-text">Welcome to Kanto</h2>
           <p className="tagline">Your journey starts here</p>
