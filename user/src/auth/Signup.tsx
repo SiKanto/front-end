@@ -1,40 +1,44 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faIdCard, faEnvelope, faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
-import '../styles/login.css';
-import LoadingSpinner from '../components/LoadingSpinner'; // sesuaikan path
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faIdCard,
+  faEnvelope,
+  faEye,
+  faEyeSlash,
+} from "@fortawesome/free-solid-svg-icons";
+import "../styles/login.css";
+import { CSSTransition } from "react-transition-group";
 
 const Signup: React.FC = () => {
   const [firstName, setFirstName] = useState<string>("");
   const [lastName, setLastName] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
-  const [messageType, setMessageType] = useState<string>(''); // 'success' or 'error'
+  const [messageType, setMessageType] = useState<string>(""); // 'success' or 'error'
   const [message, setMessage] = useState<string>("");
   const history = useNavigate();
   const [showPassword, setShowPassword] = useState<boolean>(false);
-  const [loading, setLoading] = useState<boolean>(false);
 
-  // Toggle password visibility
+  // ref untuk animasi
+  const nodeRef = useRef(null);
+
+  // Fungsi toggle show/hide password
   const togglePasswordEye = () => {
     setShowPassword(!showPassword);
   };
 
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
-    setLoading(true);
-    setMessage('');
-    setMessageType('');
 
-    const username = `${firstName}${lastName}`.toLowerCase() + Math.floor(Math.random() * 1000);
+    const username =
+      `${firstName}${lastName}`.toLowerCase() +
+      Math.floor(Math.random() * 1000);
 
     try {
-      // Minimal loading 1.5 detik
-      await new Promise(res => setTimeout(res, 1500));
-
-      const response = await axios.post("https://kanto-backend.up.railway.app/admin/create", 
+      const response = await axios.post(
+        "https://kanto-backend.up.railway.app/admin/create",
         {
           firstName,
           lastName,
@@ -44,109 +48,125 @@ const Signup: React.FC = () => {
         }
       );
 
-      if (response.data && response.data.message === "Admin created successfully") {
+      if (
+        response.data &&
+        response.data.message === "Admin created successfully"
+      ) {
         setMessage("Admin created successfully!");
-        setMessageType('success');
-        history("/login");  // Redirect ke login setelah sukses
+        setMessageType("success");
+        history("/login"); // Redirect ke halaman login
       } else {
         setMessage(response.data.message || "Something went wrong!");
-        setMessageType('error');
+        setMessageType("error");
       }
     } catch (error: unknown) {
       if (axios.isAxiosError(error)) {
         setMessage(
-          error.response?.data?.message || 
-          error.message ||  
-          "An error occurred during registration."
+          error.response?.data?.message ||
+            error.message ||
+            "An error occurred during registration."
         );
-        setMessageType('error');
+        setMessageType("error");
       } else {
         setMessage("An unexpected error occurred.");
-        setMessageType('error');
+        setMessageType("error");
       }
-    } finally {
-      setLoading(false);
     }
   };
 
   return (
     <div className="container-login">
-      {loading && <LoadingSpinner />}
-      <div
-        className="container-login-in"
-        style={{ filter: loading ? 'blur(2px)' : 'none', pointerEvents: loading ? 'none' : 'auto' }}
-      >
-        <div className="container-form-login">
-          <h2 className="h2-login">Welcome to Kanto</h2>
-          {message && <p className={`message ${messageType === 'success' ? 'success-message' : 'error-message'}`}>{message}</p>}
-          <p className="signup-prompt">
-            Already have an account?{" "}
-            <Link to="/login" className="signup-link">
-              Log in
-            </Link>
-          </p>
-          <form onSubmit={handleRegister}>
-            <div className="input-group">
+      <div className="container-login-in">
+        <CSSTransition
+          in={true} // true supaya animasi fade in saat mount
+          appear // supaya animasi muncul pertama kali
+          timeout={600}
+          classNames="flip"
+          unmountOnExit
+          nodeRef={nodeRef}
+        >
+          <div ref={nodeRef} className="container-form-login">
+            <h2 className="h2-login">Welcome to Kanto</h2>
+            {message && (
+              <p
+                className={`message ${
+                  messageType === "success"
+                    ? "success-message"
+                    : "error-message"
+                }`}
+              >
+                {message}
+              </p>
+            )}
+            <p className="signup-prompt">
+              Already have an account?{" "}
+              <Link to="/login" className="signup-link">
+                Log in
+              </Link>
+            </p>
+            <form onSubmit={handleRegister}>
+              <div className="input-group">
+                <div className="form-login">
+                  <input
+                    className="input-registers"
+                    type="text"
+                    placeholder="First name"
+                    value={firstName}
+                    onChange={(e) => setFirstName(e.target.value)}
+                    required
+                  />
+                  <span className="icon-login">
+                    <FontAwesomeIcon icon={faIdCard} />
+                  </span>
+                </div>
+
+                <div className="form-login">
+                  <input
+                    className="input-register"
+                    type="text"
+                    placeholder="Last name"
+                    value={lastName}
+                    onChange={(e) => setLastName(e.target.value)}
+                    required
+                  />
+                  <span className="icon-login">
+                    <FontAwesomeIcon icon={faIdCard} />
+                  </span>
+                </div>
+              </div>
+
               <div className="form-login">
                 <input
-                  className="input-registers"
-                  type="text"
-                  placeholder="First name"
-                  value={firstName}
-                  onChange={(e) => setFirstName(e.target.value)}
+                  className="input-login"
+                  type="email"
+                  placeholder="Email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                   required
-                  disabled={loading}
                 />
                 <span className="icon-login">
-                  <FontAwesomeIcon icon={faIdCard} />
+                  <FontAwesomeIcon icon={faEnvelope} />
                 </span>
               </div>
+
               <div className="form-login">
                 <input
-                  className="input-register"
-                  type="text"
-                  placeholder="Last name"
-                  value={lastName}
-                  onChange={(e) => setLastName(e.target.value)}
+                  className="input-login"
+                  type={showPassword ? "text" : "password"}
+                  placeholder="Password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
                   required
-                  disabled={loading}
                 />
-                <span className="icon-login">
-                  <FontAwesomeIcon icon={faIdCard} />
+                <span className="icon-password" onClick={togglePasswordEye}>
+                  <FontAwesomeIcon icon={showPassword ? faEye : faEyeSlash} />
                 </span>
               </div>
-            </div>
-            <div className="form-login">
-              <input
-                className="input-login"
-                type="email"
-                placeholder="Email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-                disabled={loading}
-              />
-              <span className="icon-login">
-                <FontAwesomeIcon icon={faEnvelope} />
-              </span>
-            </div>
-            <div className="form-login">
-              <input
-                className="input-login"
-                type={showPassword ? 'text' : 'password'}
-                placeholder="Password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-                disabled={loading}
-              />
-              <span className="icon-password" onClick={togglePasswordEye} style={{ cursor: 'pointer' }}>
-                <FontAwesomeIcon icon={showPassword ? faEye : faEyeSlash} />
-              </span>
-            </div>
-            <button className="btn-login" disabled={loading}>Sign up</button>
-          </form>
-        </div>
+
+              <button className="btn-login">Sign up</button>
+            </form>
+          </div>
+        </CSSTransition>
         <div className="logo-description">
           <img
             src="/src/assets/images/icon-red192.png"
