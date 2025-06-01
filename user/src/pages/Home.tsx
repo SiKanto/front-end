@@ -1,15 +1,18 @@
-// File: src/pages/Home.tsx
 import Navbar from "../components/Navbar";
 import Hero from "../components/Hero";
 import RecommendationSection from "../components/RecommendationSection";
 import MapSection from "../components/mapSection";
 import Footer from "../components/Footer";
 
+interface HomeProps {
+  onLogout: () => void;
+  isLoggedIn: boolean;
+}
 
-export default function Home() {
+export default function Home({ onLogout, isLoggedIn }: HomeProps) {
   return (
     <div className="font-sans">
-      <Navbar />
+      <Navbar onLogout={onLogout} isLoggedIn={isLoggedIn} />
       <main className="main-container">
         <Hero />
         <RecommendationSection />

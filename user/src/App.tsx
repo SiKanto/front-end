@@ -1,4 +1,4 @@
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import Home from "./pages/Home";
 import Login from "./auth/Login";
 import Signup from "./auth/Signup";
@@ -9,27 +9,40 @@ export default function App() {
   const [token, setToken] = useState<string | null>(localStorage.getItem("token"));
 
   const handleLogin = (token: string) => {
-    // Store the token in localStorage
     localStorage.setItem("token", token);
     setToken(token);
-    console.log('Logged in with token:', token);
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    setToken(null);
   };
 
   return (
-    <>
-      {token ? (
-        <Routes>
-          <Route path="/" element={<Home />} />
-          {/* other protected routes */}
-        </Routes>
-      ) : (
-      <Routes>
-        <Route path="/login" element={<Login onLogin={handleLogin} />} />
-        <Route path="/signup" element={<Signup />} />
-        <Route path="/reset-password" element={<Reset/>} />
-        {/* Additional routes can be added here */}
-      </Routes>
-      )}
-    </>
+    <Routes>
+      <Route
+        path="/"
+        element={
+          token ? (
+            <Home onLogout={handleLogout} isLoggedIn={!!token} />
+          ) : (
+            <Navigate to="/login" replace />
+          )
+        }
+      />
+      <Route
+        path="/login"
+        element={!token ? <Login onLogin={handleLogin} /> : <Navigate to="/" replace />}
+      />
+      <Route
+        path="/signup"
+        element={!token ? <Signup /> : <Navigate to="/" replace />}
+      />
+      <Route
+        path="/reset-password"
+        element={!token ? <Reset /> : <Navigate to="/" replace />}
+      />
+      <Route path="*" element={<Navigate to={token ? "/" : "/login"} replace />} />
+    </Routes>
   );
 }

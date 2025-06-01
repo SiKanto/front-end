@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faIdCard, faEnvelope, faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import '../styles/login.css';
+import LoadingSpinner from '../components/LoadingSpinner'; // sesuaikan path
 
 const Signup: React.FC = () => {
   const [firstName, setFirstName] = useState<string>("");
@@ -14,19 +15,25 @@ const Signup: React.FC = () => {
   const [message, setMessage] = useState<string>("");
   const history = useNavigate();
   const [showPassword, setShowPassword] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
 
-  // Function to toggle password visibility
+  // Toggle password visibility
   const togglePasswordEye = () => {
     setShowPassword(!showPassword);
   };
 
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
+    setLoading(true);
+    setMessage('');
+    setMessageType('');
 
-    // Create username by combining firstName and lastName, adding a random number
     const username = `${firstName}${lastName}`.toLowerCase() + Math.floor(Math.random() * 1000);
 
     try {
+      // Minimal loading 1.5 detik
+      await new Promise(res => setTimeout(res, 1500));
+
       const response = await axios.post("https://kanto-backend.up.railway.app/admin/create", 
         {
           firstName,
@@ -40,32 +47,35 @@ const Signup: React.FC = () => {
       if (response.data && response.data.message === "Admin created successfully") {
         setMessage("Admin created successfully!");
         setMessageType('success');
-        history("/login");  // Redirect to login page after registration
+        history("/login");  // Redirect ke login setelah sukses
       } else {
         setMessage(response.data.message || "Something went wrong!");
         setMessageType('error');
       }
     } catch (error: unknown) {
       if (axios.isAxiosError(error)) {
-        // AxiosError handling
         setMessage(
-          error.response?.data?.message || // Check if the response has a message
-          error.message ||  // If not, fallback to the generic message
+          error.response?.data?.message || 
+          error.message ||  
           "An error occurred during registration."
         );
         setMessageType('error');
       } else {
-        // Fallback for non-AxiosError cases
         setMessage("An unexpected error occurred.");
         setMessageType('error');
       }
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
     <div className="container-login">
-      <div className="container-login-in">
-        {/* Form Register */}
+      {loading && <LoadingSpinner />}
+      <div
+        className="container-login-in"
+        style={{ filter: loading ? 'blur(2px)' : 'none', pointerEvents: loading ? 'none' : 'auto' }}
+      >
         <div className="container-form-login">
           <h2 className="h2-login">Welcome to Kanto</h2>
           {message && <p className={`message ${messageType === 'success' ? 'success-message' : 'error-message'}`}>{message}</p>}
@@ -77,7 +87,6 @@ const Signup: React.FC = () => {
           </p>
           <form onSubmit={handleRegister}>
             <div className="input-group">
-              {/* First Name Input */}
               <div className="form-login">
                 <input
                   className="input-registers"
@@ -86,13 +95,12 @@ const Signup: React.FC = () => {
                   value={firstName}
                   onChange={(e) => setFirstName(e.target.value)}
                   required
+                  disabled={loading}
                 />
                 <span className="icon-login">
                   <FontAwesomeIcon icon={faIdCard} />
                 </span>
               </div>
-
-              {/* Last Name Input */}
               <div className="form-login">
                 <input
                   className="input-register"
@@ -101,13 +109,13 @@ const Signup: React.FC = () => {
                   value={lastName}
                   onChange={(e) => setLastName(e.target.value)}
                   required
+                  disabled={loading}
                 />
                 <span className="icon-login">
                   <FontAwesomeIcon icon={faIdCard} />
                 </span>
               </div>
             </div>
-
             <div className="form-login">
               <input
                 className="input-login"
@@ -116,12 +124,12 @@ const Signup: React.FC = () => {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
+                disabled={loading}
               />
               <span className="icon-login">
                 <FontAwesomeIcon icon={faEnvelope} />
               </span>
             </div>
-
             <div className="form-login">
               <input
                 className="input-login"
@@ -130,17 +138,15 @@ const Signup: React.FC = () => {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
+                disabled={loading}
               />
-              <span className="icon-password" onClick={togglePasswordEye}>
+              <span className="icon-password" onClick={togglePasswordEye} style={{ cursor: 'pointer' }}>
                 <FontAwesomeIcon icon={showPassword ? faEye : faEyeSlash} />
               </span>
             </div>
-
-            <button className="btn-login">Sign up</button>
+            <button className="btn-login" disabled={loading}>Sign up</button>
           </form>
         </div>
-
-        {/* Right Side - Logo and Description */}
         <div className="logo-description">
           <img
             src="/src/assets/images/icon-red192.png"

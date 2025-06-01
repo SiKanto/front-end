@@ -1,3 +1,9 @@
+/* Untuk browser Chrome dan Edge */
+input[type="password"]::-ms-reveal,
+input[type="password"]::-ms-clear {
+  display: none;
+}
+
 .container-login {
   display: flex;
   justify-content: center;
@@ -47,14 +53,17 @@
 
 .form-login {
   position: relative;
+  display: flex;
+  align-items: center;
   margin-bottom: 1.5rem;
+  width: 100%;
 }
 
 .input-login {
-  width: 100%;
+  flex: 1;
   height: 41px;
-  margin-left: -10px;
-  padding-left: 20px;
+  padding: 1rem;
+  box-sizing: border-box;
   border: 1px solid #ddd;
   border-radius: 9999px;
   outline: none;
@@ -97,14 +106,14 @@
 .icon-login {
   position: absolute;
   top: 50%;
-  right: 0.25rem;
+  right: 1rem;
   transform: translateY(-50%);
 }
 
 .icon-password {
   position: absolute;
   top: 50%;
-  right: 0.25rem;
+  right: 1rem;
   transform: translateY(-50%);
   cursor: pointer;
 }

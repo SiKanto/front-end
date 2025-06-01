@@ -2,31 +2,32 @@ import { Link, useNavigate } from "react-router-dom";
 import Logo from "../assets/images/logo-kanto-red.png";
 import "../styles/navbar.css";
 
-export default function Navbar() {
-  const history = useNavigate();
-  const isLoggedIn = localStorage.getItem('token');
+interface NavbarProps {
+  isLoggedIn: boolean;
+  onLogout: () => void;
+}
+
+export default function Navbar({ isLoggedIn, onLogout }: NavbarProps) {
+  const navigate = useNavigate();
 
   const handleLogout = () => {
-    localStorage.removeItem('token');
-    history('/login');
+    onLogout();
+    navigate("/login", { replace: true });
   };
 
   return (
     <header className="navbar">
       <div className="navbar-container">
-        {/* Logo */}
         <Link to="/" className="navbar-logo">
           <img src={Logo} alt="Kanto Logo" className="logo-image" />
         </Link>
 
-        {/* Menu */}
         <nav className="navbar-menu">
           <Link to="/recommendation" className="navbar-link">Recommendation</Link>
           <Link to="/saved" className="navbar-link">Saved</Link>
           <Link to="/about" className="navbar-link">About</Link>
         </nav>
 
-        {/* Auth Buttons */}
         <div className="navbar-actions">
           {!isLoggedIn ? (
             <>
