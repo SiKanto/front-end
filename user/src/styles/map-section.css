@@ -1,0 +1,218 @@
+/* 🗺️ MAP SECTION */
+.leaflet-container {
+  z-index: 0 !important;
+}
+
+.map-section {
+  padding: 64px 24px;
+  text-align: center;
+}
+
+.map-header h2 {
+  font-size: var(--text-3xl);
+  font-family: var(--font-baltore);
+  color: var(--color-thunderbird-600);
+  font-weight: 500;
+  margin-bottom: 12px;
+}
+
+.map-header p {
+  font-size: var(--text-base);
+  font-family: var(--font-poppins);
+  color: #666;
+  max-width: 640px;
+  margin: 0 auto 24px;
+  line-height: 1.6;
+}
+
+.map-container {
+  position: relative;
+  z-index: 0;
+  border-radius: 24px;
+  width: 100%;
+  max-width: 1000px;
+  margin: 0 auto;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+}
+
+.map-iframe-wrapper {
+  position: relative;
+  z-index: 1;
+}
+
+iframe {
+  position: relative;
+  z-index: 1;
+  display: block;
+  width: 100%;
+  height: 400px;
+  border: none;
+}
+
+/* 🔍 FILTER BAR */
+.filter-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  margin: 24px auto;
+  max-width: 1000px;
+  padding: 0 24px;
+  position: relative;
+  z-index: 10;
+}
+
+.filter-right {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.search-input-wrapper {
+  position: relative;
+  width: 240px;
+}
+
+.search-input-wrapper input {
+  background-color: white;
+  border: 1px solid var(--color-thunderbird-500);
+  padding: 10px 16px 10px 46px;
+  border-radius: 24px;
+  font-family: var(--font-poppins);
+  font-size: var(--text-base);
+  transition: border-color 0.3s ease;
+}
+
+.search-input-wrapper input:focus {
+  outline: none;
+  border-color: var(--color-thunderbird-600);
+  box-shadow: 0 0 0 2px rgba(220, 38, 38, 0.2);
+}
+
+.search-icon {
+  position: absolute;
+  top: 50%;
+  left: 12px;
+  transform: translateY(-50%);
+  color: var(--color-thunderbird-600);
+  font-size: 18px;
+  pointer-events: none;
+}
+
+/* ⬇️ CUSTOM DROPDOWN */
+.custom-dropdown {
+  position: relative;
+  display: inline-block;
+  width: 180px;
+  z-index: 10000;
+}
+
+.dropdown-toggle {
+  padding: 10px 36px 10px 16px;
+  border-radius: 24px;
+  border: 1px solid var(--color-thunderbird-500);
+  background-color: white;
+  color: var(--color-thunderbird-600);
+  font-family: var(--font-poppins);
+  font-size: var(--text-base);
+  cursor: pointer;
+  width: 100%;
+  text-align: left;
+  position: relative;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.dropdown-toggle:focus {
+  outline: none;
+  border-color: var(--color-thunderbird-600);
+  box-shadow: 0 0 0 2px rgba(220, 38, 38, 0.2);
+}
+
+.select-icon {
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 20px;
+  color: var(--color-thunderbird-600);
+  pointer-events: none;
+  transition: transform 0.3s ease;
+}
+
+.select-icon.rotate {
+  transform: translateY(-50%) rotate(180deg);
+}
+
+/* Dropdown menu */
+.dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 10010;
+  background-color: white;
+  border: 1px solid var(--color-thunderbird-500);
+  border-radius: 16px;
+  margin-top: 6px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  width: 100%;
+  list-style: none;
+  padding: 0;
+  overflow: hidden;
+  transform: scaleY(0);
+  transform-origin: top;
+  opacity: 0;
+  pointer-events: none;
+  transition: transform 0.25s ease, opacity 0.25s ease;
+}
+
+.dropdown-menu.open {
+  opacity: 1;
+  transform: scaleY(1);
+  pointer-events: auto;
+}
+
+.dropdown-menu li {
+  padding: 10px 16px;
+  font-family: var(--font-poppins);
+  font-size: var(--text-base);
+  cursor: pointer;
+  border-bottom: 1px solid #eee;
+  transition: background-color 0.2s ease;
+}
+
+.dropdown-menu li:last-child {
+  border-bottom: none;
+}
+
+.dropdown-menu li:hover {
+  background-color: var(--color-thunderbird-100);
+}
+
+/* ✅ APPLY FILTER BUTTON */
+.apply-btn {
+  background-color: var(--color-thunderbird-600);
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 24px;
+  font-family: var(--font-poppins);
+  font-size: var(--text-base);
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.apply-btn:hover {
+  background-color: var(--color-thunderbird-700);
+}
+
+/* ✨ Scroll fade-in animation */
+.scroll-fade {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.scroll-fade.visible {
+  opacity: 1;
+  transform: translateY(0);
+}

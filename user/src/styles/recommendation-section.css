@@ -1,0 +1,123 @@
+@import './variables.css';
+@import './fonts.css';
+
+.recommendation-section {
+  padding: 64px 24px;
+}
+
+.recommendation-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.recommendation-title h2 {
+  font-family: var(--font-baltore);
+  font-size: var(--text-3xl);
+  font-weight: 500;
+  color: var(--color-thunderbird-600);
+  margin: 0;
+}
+
+.recommendation-title p {
+  font-family: var(--font-poppins);
+  font-size: var(--text-sm);
+  color: #666;
+  margin-top: 4px;
+}
+
+.recommendation-nav {
+  display: flex;
+  gap: 8px;
+}
+
+.nav-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border: none;
+  font-size: 1rem;
+}
+
+.nav-btn.outline {
+  background-color: var(--color-thunderbird-100);
+  color: var(--color-thunderbird-600);
+}
+
+.nav-btn.filled {
+  background-color: var(--color-thunderbird-600);
+  color: var(--color-white);
+}
+
+/* Tambahan untuk tombol aktif */
+.nav-btn.active {
+  background-color: var(--color-thunderbird-600);
+  color: var(--color-white);
+}
+
+.nav-btn:hover:not(:disabled) {
+  opacity: 0.9;
+  transform: scale(1.05);
+  transition: all 0.2s ease;
+}
+
+.nav-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.recommendation-section {
+  padding: 64px 24px;
+  max-width: 1024px;
+  margin: 0 auto;
+}
+
+.recommendation-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+@media (max-width: 900px) {
+  .recommendation-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .recommendation-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.recommendation-nav-group {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+  margin-top: 4px;
+}
+
+.recommendation-page-indicator {
+  font-family: var(--font-poppins);
+  font-size: var(--text-xs);
+  color: #888;
+  padding-left: 4px;
+}
+
+/* Transisi animasi */
+.recommendation-grid {
+  transition: opacity 0.3s ease-in-out;
+  opacity: 1;
+}
+
+.recommendation-grid.fade-out {
+  opacity: 0;
+}

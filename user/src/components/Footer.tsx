@@ -25,7 +25,7 @@ export default function Footer() {
         <div className="footer-right">
           <div className="footer-actions">
             <Link to="/signup" className="signup-link-footer">Sign up</Link>
-            <Link to="/login" className="login-link">Login</Link>
+            <Link to="/login" className="login-link-footer">Login</Link>
           </div>
           <p className="footer-copy">
             © 2025 Kanto’s team – Capstone Project<br />

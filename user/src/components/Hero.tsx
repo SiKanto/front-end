@@ -1,13 +1,48 @@
 // File: src/components/Hero.tsx
+import { useEffect, useRef } from "react";
+import { Link } from "react-router-dom";
+import "../styles/hero.css";
+import BeachImage from "../assets/images/main-beach.png";
+import { Icon } from "@iconify/react";
+import clipboardCheckIcon from "@iconify/icons-solar/clipboard-check-outline";
+
 export default function Hero() {
+  const heroRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    const el = heroRef.current;
+    if (!el) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          el.classList.add("show");
+        } else {
+          el.classList.remove("show");
+        }
+      },
+      { threshold: 0.3 }
+    );
+
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
   return (
-    <section className="relative">
-      <img src="/hero.jpg" alt="Beach" className="w-full h-[600px] object-cover" />
-      <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex flex-col justify-center items-start px-16 text-white">
-        <h1 className="text-5xl font-bold max-w-xl leading-tight">
-          Welcome, <span className="text-red-400">adventure is more comfortable if we know where the destination is</span>
-        </h1>
-        <button className="mt-6 px-4 py-2 bg-white text-red-600 rounded-full font-semibold">🎯 Take Survey</button>
+    <section
+      className="hero"
+      style={{ backgroundImage: `url(${BeachImage})` }}
+    >
+      <div className="hero-overlay">
+        <div ref={heroRef} className="hero-content fade-in-up">
+          <h1 className="hero-title">Welcome, adventure is <br />more comfortable if we know <br />where the destination is</h1>
+          <Link to="/survey" className="hero-button">
+            <span className="icon">
+              <Icon icon={clipboardCheckIcon} className="icon" />
+            </span>
+            Take Survey
+          </Link>
+        </div>
       </div>
     </section>
   );

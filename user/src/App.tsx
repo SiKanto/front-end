@@ -1,12 +1,18 @@
+// File: src/App.tsx
+
 import { Routes, Route, Navigate } from "react-router-dom";
 import Home from "./pages/Home";
+import Saved from "./pages/Saved";
+import About from "./pages/About";
 import Login from "./auth/Login";
 import Signup from "./auth/Signup";
 import Reset from "./auth/ResetPassword";
 import { useState } from "react";
 
 export default function App() {
-  const [token, setToken] = useState<string | null>(localStorage.getItem("token"));
+  const [token, setToken] = useState<string | null>(
+    localStorage.getItem("token") || "dummy-token"
+  );
 
   const handleLogin = (token: string) => {
     localStorage.setItem("token", token);
@@ -20,6 +26,7 @@ export default function App() {
 
   return (
     <Routes>
+      {/* Route untuk halaman utama (home) */}
       <Route
         path="/"
         element={
@@ -30,18 +37,62 @@ export default function App() {
           )
         }
       />
+
+      <Route
+        path="/saved"
+        element={
+          token ? (
+            <Saved />
+          ) : (
+            <Navigate to="/login" replace />
+          )
+        }
+      />
+
+      <Route
+        path="/about"
+        element={
+          token ? <About /> : <Navigate to="/login" replace />
+        }
+      />  
+
+      {/* Route untuk login */}
       <Route
         path="/login"
-        element={!token ? <Login onLogin={handleLogin} /> : <Navigate to="/" replace />}
+        element={
+          !token ? (
+            <Login onLogin={handleLogin} />
+          ) : (
+            <Navigate to="/" replace />
+          )
+        }
       />
+
+      {/* Route untuk signup */}
       <Route
         path="/signup"
-        element={!token ? <Signup /> : <Navigate to="/" replace />}
+        element={
+          !token ? (
+            <Signup />
+          ) : (
+            <Navigate to="/" replace />
+          )
+        }
       />
+
+      {/* Route untuk reset password */}
       <Route
         path="/reset-password"
-        element={!token ? <Reset /> : <Navigate to="/" replace />}
+        element={
+          !token ? (
+            <Reset />
+          ) : (
+            <Navigate to="/" replace />
+          )
+        }
       />
+
+      {/* Catch-all route */}
       <Route path="*" element={<Navigate to={token ? "/" : "/login"} replace />} />
     </Routes>
   );

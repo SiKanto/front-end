@@ -1,21 +1,39 @@
 // File: src/components/PlaceCard.tsx
+
 import { Icon } from "@iconify/react";
 import starIcon from "@iconify/icons-solar/star-bold";
 import pinIcon from "@iconify/icons-solar/map-point-bold";
+import "../styles/place-card.css";
+import type { Place } from "../data/dummyPlaces";
 
-export default function PlaceCard({ name, location, rating }: any) {
-  return (
-    <div className="bg-gray-200 rounded-lg overflow-hidden shadow p-4">
-      <div className="w-full h-32 bg-gray-300 rounded mb-3"></div>
-      <div className="flex justify-between items-center">
-        <div>
-          <p className="font-semibold">{name}</p>
-          <div className="flex items-center text-sm text-gray-600">
-            <Icon icon={pinIcon} className="w-4 h-4 mr-1" /> {location}
+interface Props extends Place {
+  id: string;
+  name: string;
+  location: string;
+  rating: number;
+  image: string;
+  onClick?: () => void;
+}
+
+export default function PlaceCard({ name, location, rating, image, onClick }: Props) {
+   return (
+    <div className="place-card" onClick={onClick}>
+      <div className="place-image">
+        <img src={image} alt={name} />
+      </div>
+
+      <div className="place-body">
+        <div className="place-info">
+          <p className="place-name">{name}</p>
+          <div className="place-location">
+            <Icon icon={pinIcon} className="icon" />
+            {location}
           </div>
         </div>
-        <div className="bg-red-600 text-white px-2 py-0.5 rounded-full text-sm flex items-center">
-          <Icon icon={starIcon} className="w-4 h-4 mr-1" /> {rating}
+
+        <div className="place-rating">
+          <Icon icon={starIcon} className="icon" />
+          {rating}
         </div>
       </div>
     </div>
