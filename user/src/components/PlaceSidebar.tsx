@@ -44,7 +44,7 @@ export default function PlaceSidebar({ place, onClose }: Props) {
 
         {/* ✅ FIXED: Gambar ditampilkan */}
         <div className="sidebar-image">
-          <img src={place.image} alt={place.name} />
+          <img src={place.imageURL} alt={place.name} />
         </div>
 
         <div className="sidebar-content">
@@ -66,7 +66,8 @@ export default function PlaceSidebar({ place, onClose }: Props) {
           </div>
 
           <div className="sidebar-section"><Icon icon={infoIcon} /><p>{place.description}</p></div>
-          <div className="sidebar-section"><Icon icon={clockIcon} /><p>{place.openHour}</p></div>
+          <div className="sidebar-section"><Icon icon={clockIcon} /><p>{place.openingHours}</p></div>
+          <div className="sidebar-section"><Icon icon={clockIcon} /><p>{place.closingHours}</p></div>
           <div className="sidebar-section"><Icon icon={tagIcon} /><p>{place.price}</p></div>
         </div>
       </div>

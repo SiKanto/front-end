@@ -204,15 +204,3 @@ iframe {
 .apply-btn:hover {
   background-color: var(--color-thunderbird-700);
 }
-
-/* ✨ Scroll fade-in animation */
-.scroll-fade {
-  opacity: 0;
-  transform: translateY(40px);
-  transition: opacity 0.6s ease, transform 0.6s ease;
-}
-
-.scroll-fade.visible {
-  opacity: 1;
-  transform: translateY(0);
-}

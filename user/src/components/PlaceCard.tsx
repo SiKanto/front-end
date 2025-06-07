@@ -9,17 +9,17 @@ import type { Place } from "../data/dummyPlaces";
 interface Props extends Place {
   id: string;
   name: string;
-  location: string;
+  city: string;
   rating: number;
-  image: string;
+  imageURL: string;
   onClick?: () => void;
 }
 
-export default function PlaceCard({ name, location, rating, image, onClick }: Props) {
-   return (
+export default function PlaceCard({ name, city, rating, imageURL, onClick }: Props) {
+  return (
     <div className="place-card" onClick={onClick}>
       <div className="place-image">
-        <img src={image} alt={name} />
+        <img src={imageURL} alt={name} />
       </div>
 
       <div className="place-body">
@@ -27,7 +27,7 @@ export default function PlaceCard({ name, location, rating, image, onClick }: Pr
           <p className="place-name">{name}</p>
           <div className="place-location">
             <Icon icon={pinIcon} className="icon" />
-            {location}
+            {city}
           </div>
         </div>
 
