@@ -1,0 +1,41 @@
+.open-survey-btn {
+  margin: 24px auto;
+  display: block;
+  background: #e60012;
+  color: white;
+  padding: 10px 24px;
+  border: none;
+  border-radius: 24px;
+  font-size: 16px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.survey-overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+  display: flex;
+  justify-content: flex-end;
+  align-items: stretch;
+}
+
+.survey-slide-container {
+  width: 900px;
+  max-width: 100%;
+  background: white;
+  height: 100%;
+  overflow-y: auto;
+  animation: slideInRight 0.3s ease-out forwards;
+  box-shadow: -2px 0 6px rgba(0, 0, 0, 0.1);
+}
+
+@keyframes slideInRight {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}

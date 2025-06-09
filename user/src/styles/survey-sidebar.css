@@ -1,0 +1,129 @@
+/* === WRAPPER === */
+.survey-sidebar {
+  background: white;
+  padding: 24px;
+  height: 100%;
+  width: 100%;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+}
+
+/* === FORM === */
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+/* === JUDUL === */
+.survey-sidebar h3 {
+  font-family: var(--font-baltore);
+  margin-top: 20px;
+  font-size: var(--text-lg);
+  color: var(--color-black);
+  font-weight: 500;
+}
+
+/* === GROUP BUTTON === */
+.mood-options,
+.region-options,
+.topic-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 10px 0;
+}
+
+/* === MOOD ICON BUTTON === */
+.mood-icon-btn {
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  padding: 4px;
+  transition: transform 0.2s;
+}
+
+.mood-icon-btn.selected {
+  background: transparent !important;
+  box-shadow: none;
+}
+
+.mood-icon-btn:hover {
+  transform: scale(1.05);
+}
+
+.mood-icon {
+  width: 30px;
+  height: 30px;
+  object-fit: contain;
+}
+
+/* === TEXT BUTTONS (REGION & TOPIC) === */
+.region-options button,
+.topic-options button {
+  font-family: var(--font-poppins);
+  padding: 6px 14px;
+  border: 1px solid var(--color-thunderbird-700);
+  border-radius: 20px;
+  background: white;
+  color: var(--color-thunderbird-700);
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+button.selected {
+  background: var(--color-thunderbird-700);
+  color: white;
+}
+
+/* === LABEL & TEXTAREA === */
+label {
+  display: block;
+  margin-top: 16px;
+  color: var(--color-black);
+  font-weight: 500;
+  font-family: var(--font-baltore);
+}
+
+textarea {
+  width: 100%;
+  min-height: 80px;
+  margin-top: 4px;
+  padding: 10px;
+  border: 1px solid var(--color-thunderbird-700);
+  border-radius: 10px;
+  resize: vertical;
+  font-family: var(--font-poppins);
+  box-sizing: border-box;
+}
+
+/* === SUBMIT BUTTON === */
+.submit-btn {
+  margin-top: 20px;
+  background: var(--color-thunderbird-700);
+  color: white;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-weight: 600;
+  font-family: var(--font-poppins);
+}
+
+.submit-btn:hover {
+  background: var(--color-thunderbird-600);
+}
+
+/* === Spacing Adjustments === */
+.mood-options {
+  display: flex;
+  gap: 12px;
+  margin-top: 8px;       
+  margin-bottom: 20px;
+}
+
+.survey-sidebar h3 {
+  margin-bottom: 4px;    
+}

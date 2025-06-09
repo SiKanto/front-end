@@ -1,3 +1,5 @@
+// File: src/components/PlaceSidebar.tsx
+
 import "../styles/place-sidebar.css";
 import { useEffect, useState } from "react";
 import { Icon } from "@iconify/react";
@@ -18,7 +20,7 @@ interface Props {
 
 export default function PlaceSidebar({ place, onClose }: Props) {
   const [isVisible, setIsVisible] = useState(true);
-  const { addPlace, removePlace, isSaved } = useSavedPlaces();
+  const { isSaved, toggleSaved } = useSavedPlaces();
 
   useEffect(() => {
     setIsVisible(true);
@@ -29,20 +31,16 @@ export default function PlaceSidebar({ place, onClose }: Props) {
     setTimeout(onClose, 300);
   };
 
-  const handleSave = () => {
-    if (place) {
-      isSaved(place.id) ? removePlace(place.id) : addPlace(place);
-    }
-  };
-
   if (!place) return null;
 
   return (
     <div className="sidebar-overlay" onClick={handleClose}>
-      <div className={`place-sidebar ${isVisible ? "slide-in" : "slide-out"}`} onClick={(e) => e.stopPropagation()}>
+      <div
+        className={`place-sidebar ${isVisible ? "slide-in" : "slide-out"}`}
+        onClick={(e) => e.stopPropagation()}
+      >
         <button className="close-btn" onClick={handleClose}>×</button>
 
-        {/* ✅ FIXED: Gambar ditampilkan */}
         <div className="sidebar-image">
           <img src={place.imageURL} alt={place.name} />
         </div>
@@ -52,23 +50,34 @@ export default function PlaceSidebar({ place, onClose }: Props) {
           <p className="sidebar-location">{place.location}</p>
 
           <div className="sidebar-actions">
-            <button onClick={handleSave}>
+            <button onClick={() => toggleSaved(place)} aria-label="Save">
               <Icon icon={isSaved(place.id) ? heartFilled : heartIcon} />
             </button>
-            <button><Icon icon={shareIcon} /></button>
+            <button aria-label="Share"><Icon icon={shareIcon} /></button>
           </div>
 
           <div className="sidebar-rating">
             <span className="rating-badge">
-              <Icon icon={starIcon} />{place.rating}
+              <Icon icon={starIcon} />
+              {place.rating}
             </span>
             <p className="type">{place.category}</p>
           </div>
 
-          <div className="sidebar-section"><Icon icon={infoIcon} /><p>{place.description}</p></div>
-          <div className="sidebar-section"><Icon icon={clockIcon} /><p>{place.openingHours}</p></div>
-          <div className="sidebar-section"><Icon icon={clockIcon} /><p>{place.closingHours}</p></div>
-          <div className="sidebar-section"><Icon icon={tagIcon} /><p>{place.price}</p></div>
+          <div className="sidebar-section">
+            <Icon icon={infoIcon} />
+            <p>{place.description}</p>
+          </div>
+
+          <div className="sidebar-section">
+            <Icon icon={clockIcon} />
+            <p>{place.openingHours} - {place.closingHours}</p>
+          </div>
+
+          <div className="sidebar-section">
+            <Icon icon={tagIcon} />
+            <p>{place.price}</p>
+          </div>
         </div>
       </div>
     </div>

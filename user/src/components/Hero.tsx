@@ -1,12 +1,15 @@
 // File: src/components/Hero.tsx
 import { useEffect, useRef } from "react";
-import { Link } from "react-router-dom";
 import "../styles/hero.css";
 import BeachImage from "../assets/images/main-beach.png";
 import { Icon } from "@iconify/react";
 import clipboardCheckIcon from "@iconify/icons-solar/clipboard-check-outline";
 
-export default function Hero() {
+interface HeroProps {
+  onTakeSurvey: () => void;
+}
+
+export default function Hero({ onTakeSurvey }: HeroProps) {
   const heroRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
@@ -35,13 +38,18 @@ export default function Hero() {
     >
       <div className="hero-overlay">
         <div ref={heroRef} className="hero-content fade-in-up">
-          <h1 className="hero-title">Welcome, adventure is <br />more comfortable if we know <br />where the destination is</h1>
-          <Link to="/survey" className="hero-button">
+          <h1 className="hero-title">
+            Welcome, adventure is <br />
+            more comfortable if we know <br />
+            where the destination is
+          </h1>
+
+          <button className="hero-button" onClick={onTakeSurvey}>
             <span className="icon">
               <Icon icon={clipboardCheckIcon} className="icon" />
             </span>
             Take Survey
-          </Link>
+          </button>
         </div>
       </div>
     </section>

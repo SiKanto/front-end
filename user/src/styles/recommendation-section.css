@@ -121,3 +121,39 @@
 .recommendation-grid.fade-out {
   opacity: 0;
 }
+
+/*Recommendation filter styles*/
+.recommendation-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 1px;
+  gap: 120px;
+  margin-top: -10px;
+}
+
+.region-filters {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.region-btn {
+  font-family: var(--font-poppins);
+  padding: 6px 16px;
+  border: 1px solid #e60012;
+  border-radius: 20px;
+  background-color: white;
+  color: #e60012;
+  font-weight: 400;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.region-btn.active,
+.region-btn:hover {
+  background-color: #e60012;
+  color: white;
+}
+

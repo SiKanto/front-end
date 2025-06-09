@@ -48,10 +48,22 @@ export default function About() {
               <h2 className="about-heading">Kanto</h2>
               <p className="about-sub">your personal traveling companion</p>
               <p className="about-desc">
-                Lorem ipsum dolor sit amet consectetur. Pretium sem pulvinar neque sed ut est enim lorem in.
-                Fermentum lobortis hendrerit turpis quam turpis. Ornare commodo pellentesque quis id nascetur ut
-                imperdiet ornare malesuada. Tempus proin diam enim elementum sapien eu. Vulputate velit aliquet
-                euque odio volutpat vitae ornare. Malesuada sed scelerisque id mi amet malesuada mauris.
+                KANTO, yang berasal dari singkatan <b>KANca paTOalangan</b> atau Teman 
+                Petualangan, hadir untuk membantu Anda menjelajahi keindahan 
+                Madura dengan cara yang lebih menyenangkan dan terarah. Kami 
+                memberikan rekomendasi destinasi wisata terbaik di empat 
+                kabupaten Madura yaitu Bangkalan, Sampang, Pamekasan, dan 
+                Sumenep, yang pasti akan membuat perjalanan Anda semakin 
+                berkesan. Dengan sistem rekomendasi berbasis digital yang kami 
+                kembangkan, KANTO memberikan saran yang dipersonalisasi sesuai 
+                minat dan preferensi Anda. Dari wisata alam yang menenangkan, 
+                budaya yang kaya, hingga destinasi tersembunyi yang jarang 
+                diketahui, KANTO siap menjadi teman setia Anda dalam menemukan 
+                tempat-tempat indah di Madura. Kami juga bertujuan untuk 
+                mendukung pertumbuhan ekonomi kreatif di Madura dengan 
+                menghubungkan wisatawan dengan pelaku usaha lokal, memberikan 
+                dampak positif bagi sektor pariwisata dan ekonomi lokal. Temukan 
+                pengalaman wisata yang tak terlupakan Bersama KANTO!
               </p>
             </div>
             <div className="about-right scroll-fade">

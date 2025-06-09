@@ -8,21 +8,29 @@ import arrowLeft from "@iconify/icons-solar/alt-arrow-left-outline";
 import arrowRight from "@iconify/icons-solar/alt-arrow-right-outline";
 import "../styles/recommendation-section.css";
 import axios from "axios";
-import type { Place } from "../data/dummyPlaces"; // Import the correct type
+import type { Place } from "../data/dummyPlaces";
 
 const ITEMS_PER_PAGE = 6;
+const REGIONS = ["Bangkalan", "Pamekasan", "Sampang", "Sumenep"];
 
 export default function RecommendationSection() {
   const [page, setPage] = useState(0);
   const [fade, setFade] = useState(false);
-  const [selectedPlace, setSelectedPlace] = useState<Place | null>(null); // Type for selectedPlace
-  const [places, setPlaces] = useState<Place[]>([]); // Type for places array
+  const [selectedPlace, setSelectedPlace] = useState<Place | null>(null);
+  const [places, setPlaces] = useState<Place[]>([]);
   const [loading, setLoading] = useState(true);
+  const [selectedRegion, setSelectedRegion] = useState<string | null>(null);
 
-  const maxPage = Math.ceil(places.length / ITEMS_PER_PAGE) - 1;
+  const filteredPlaces = selectedRegion
+    ? places.filter((place) =>
+        place.location.toLowerCase().includes(selectedRegion.toLowerCase())
+      )
+    : places;
+
+  const maxPage = Math.ceil(filteredPlaces.length / ITEMS_PER_PAGE) - 1;
   const start = page * ITEMS_PER_PAGE;
   const end = start + ITEMS_PER_PAGE;
-  const visiblePlaces = places.slice(start, end);
+  const visiblePlaces = filteredPlaces.slice(start, end);
 
   const changePage = (newPage: number) => {
     if (newPage === page) return;
@@ -45,12 +53,10 @@ export default function RecommendationSection() {
   }, [inView]);
 
   useEffect(() => {
-    // Fetch the data from the API
     axios
       .get("https://kanto-backend.up.railway.app/destinations")
       .then((response) => {
-        // Assuming the API data structure matches the Place interface
-        const fetchedPlaces: Place[] = response.data; // Type the response data
+        const fetchedPlaces: Place[] = response.data;
         setPlaces(fetchedPlaces);
         setLoading(false);
       })
@@ -59,6 +65,10 @@ export default function RecommendationSection() {
         setLoading(false);
       });
   }, []);
+
+  useEffect(() => {
+    setPage(0);
+  }, [selectedRegion]);
 
   if (loading) {
     return <div>Loading...</div>;
@@ -85,25 +95,41 @@ export default function RecommendationSection() {
           <p>Based on your survey result</p>
         </div>
 
-        <div className="recommendation-nav-group">
-          <div className="recommendation-nav">
-            <button
-              className={`nav-btn ${page > 0 ? "active" : "outline"}`}
-              onClick={() => changePage(page - 1)}
-              disabled={page === 0}
-            >
-              <Icon icon={arrowLeft} width="16" />
-            </button>
-            <button
-              className={`nav-btn ${page < maxPage ? "active" : "outline"}`}
-              onClick={() => changePage(page + 1)}
-              disabled={page === maxPage}
-            >
-              <Icon icon={arrowRight} width="16" />
-            </button>
+        <div className="recommendation-controls">
+          <div className="region-filters">
+            {REGIONS.map((region) => (
+              <button
+                key={region}
+                onClick={() =>
+                  setSelectedRegion(region === selectedRegion ? null : region)
+                }
+                className={`region-btn ${selectedRegion === region ? "active" : ""}`}
+              >
+                {region}
+              </button>
+            ))}
           </div>
-          <div className="recommendation-page-indicator">
-            Page {page + 1} of {maxPage + 1}
+
+          <div className="recommendation-nav-group">
+            <div className="recommendation-nav">
+              <button
+                className={`nav-btn ${page > 0 ? "active" : "outline"}`}
+                onClick={() => changePage(page - 1)}
+                disabled={page === 0}
+              >
+                <Icon icon={arrowLeft} width="16" />
+              </button>
+              <button
+                className={`nav-btn ${page < maxPage ? "active" : "outline"}`}
+                onClick={() => changePage(page + 1)}
+                disabled={page === maxPage}
+              >
+                <Icon icon={arrowRight} width="16" />
+              </button>
+            </div>
+            <div className="recommendation-page-indicator">
+              Page {page + 1} of {maxPage + 1}
+            </div>
           </div>
         </div>
       </div>

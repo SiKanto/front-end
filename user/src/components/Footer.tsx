@@ -11,7 +11,6 @@ export default function Footer() {
           <div className="footer-logo">
             <img src={Logo} alt="Kanto Logo" className="logo-image" />
           </div>
-          <Link to="/support" className="footer-link">Help & Support</Link>
         </div>
 
         {/* Middle */}
