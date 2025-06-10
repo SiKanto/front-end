@@ -1,19 +1,23 @@
 import { Link } from "react-router-dom";
 import Logo from "../assets/images/logo-kanto-white.png";
+import { useAuth } from "../contexts/authContext";
 import "../styles/footer.css";
 
 export default function Footer() {
+    const { isLoggedIn, logout } = useAuth();
+
+    const handleLogout = () => {
+        logout();
+        localStorage.removeItem("token");
+    };
+
     return (
         <footer className="footer">
             <div className="footer-container">
                 {/* Left */}
                 <div className="footer-left">
                     <div className="footer-logo">
-                        <img
-                            src={Logo}
-                            alt="Kanto Logo"
-                            className="logo-image"
-                        />
+                        <img src={Logo} alt="Kanto Logo" className="logo-image" />
                     </div>
                 </div>
 
@@ -33,12 +37,20 @@ export default function Footer() {
                 {/* Right */}
                 <div className="footer-right">
                     <div className="footer-actions">
-                        <Link to="/signup" className="signup-link-footer">
-                            Sign up
-                        </Link>
-                        <Link to="/login" className="login-link-footer">
-                            Login
-                        </Link>
+                        {isLoggedIn ? (
+                            <a onClick={handleLogout} className="logout-link-footer">
+                                Logout
+                            </a>
+                        ) : (
+                            <>
+                                <Link to="/signup" className="signup-link-footer">
+                                    Sign up
+                                </Link>
+                                <Link to="/login" className="login-link-footer">
+                                    Login
+                                </Link>
+                            </>
+                        )}
                     </div>
                     <p className="footer-copy">
                         © 2025 Kanto’s team – Capstone Project

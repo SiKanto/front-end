@@ -7,12 +7,7 @@ import Footer from "../components/Footer";
 import SurveySidebar from "../components/surveySidebar";
 import "../styles/home.css";
 
-interface HomeProps {
-    onLogout: () => void;
-    isLoggedIn: boolean;
-}
-
-export default function Home({ onLogout, isLoggedIn }: HomeProps) {
+export default function Home() {
     const [showSidebar, setShowSidebar] = useState(false);
     const [selectedRegion, setSelectedRegion] = useState<string | null>(null);
 
@@ -24,7 +19,7 @@ export default function Home({ onLogout, isLoggedIn }: HomeProps) {
 
     return (
         <div className="font-sans">
-            <Navbar onLogout={onLogout} isLoggedIn={isLoggedIn} />
+            <Navbar />
             <Hero onTakeSurvey={() => setShowSidebar(true)} />
             <main className="main-container">
                 <RecommendationSection

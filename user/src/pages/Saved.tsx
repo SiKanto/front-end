@@ -38,7 +38,7 @@ export default function Saved() {
 
     return (
         <>
-            <Navbar isLoggedIn onLogout={() => {}} />
+            <Navbar />
             <section
                 className={`saved-page scroll-fade ${
                     pageVisible ? "visible" : ""
