@@ -8,6 +8,7 @@ import {
     faEyeSlash,
     faEnvelope,
 } from "@fortawesome/free-solid-svg-icons";
+import logo192 from "../assets/images/icon-red192.png";
 import { GoogleLogin } from "@react-oauth/google";
 import LoadingSpinner from "../components/LoadingSpinner";
 import { CSSTransition } from "react-transition-group";
@@ -258,7 +259,7 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
                 </CSSTransition>
                 <div className="logo-description">
                     <img
-                        src="/src/assets/images/icon-red192.png"
+                        src={logo192}
                         alt="Kanto Logo"
                         className="logo"
                     />

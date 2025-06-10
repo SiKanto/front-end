@@ -6,6 +6,7 @@ import {
     faEye,
     faEyeSlash,
 } from "@fortawesome/free-solid-svg-icons";
+import logo192 from "../assets/images/icon-red192.png";
 import { Link, useNavigate } from "react-router-dom";
 import { CSSTransition } from "react-transition-group";
 
@@ -167,7 +168,7 @@ const ResetPassword: React.FC = () => {
 
                 <div className="logo-description">
                     <img
-                        src="/src/assets/images/icon-red192.png"
+                        src={logo192}
                         alt="Kanto Logo"
                         className="logo"
                     />
