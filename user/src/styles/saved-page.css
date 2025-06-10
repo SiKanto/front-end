@@ -1,47 +1,46 @@
-@import './variables.css';
-@import './fonts.css';
+@import "./variables.css";
+@import "./fonts.css";
 
 .saved-page {
-  padding: 64px 24px;
-  max-width: 1200px;
-  margin: 0 auto;
+    padding: 64px 24px;
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
 .saved-title {
-  text-align: center;
-  font-family: var(--font-baltore);
-  font-size: var(--text-3xl);
-  font-weight: 500;
-  color: var(--color-thunderbird-600);
-  margin-bottom: 40px;
+    text-align: center;
+    font-family: var(--font-baltore);
+    font-size: var(--text-3xl);
+    font-weight: 500;
+    color: var(--color-thunderbird-600);
+    margin-bottom: 40px;
 }
 
 .saved-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 32px;
-  justify-items: center;   
-  justify-content: center;   
-  margin: 0 auto;
-  padding: 0 16px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 32px;
+    justify-items: center;
+    justify-content: center;
+    margin: 0 auto;
+    padding: 0 16px;
 }
 
 .empty-message {
-  text-align: center;
-  font-family: var(--font-poppins);
-  font-size: var(--text-base);
-  color: #666;
-  margin-top: 48px;
+    text-align: center;
+    font-family: var(--font-poppins);
+    font-size: var(--text-base);
+    color: #666;
+    margin-top: 48px;
 }
 
 .scroll-fade {
-  opacity: 0;
-  transform: translateY(40px);
-  transition: opacity 0.6s ease, transform 0.6s ease;
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
 }
 
 .scroll-fade.visible {
-  opacity: 1;
-  transform: translateY(0);
+    opacity: 1;
+    transform: translateY(0);
 }
-

@@ -10,90 +10,73 @@ import Reset from "./auth/ResetPassword";
 import { useState } from "react";
 
 export default function App() {
-  const [token, setToken] = useState<string | null>(
-    localStorage.getItem("token") || "dummy-token"
-  );
+    const [token, setToken] = useState<string | null>(
+        localStorage.getItem("token") || "dummy-token"
+    );
 
-  const handleLogin = (token: string) => {
-    localStorage.setItem("token", token);
-    setToken(token);
-  };
+    const handleLogin = (token: string) => {
+        localStorage.setItem("token", token);
+        setToken(token);
+    };
 
-  const handleLogout = () => {
-    localStorage.removeItem("token");
-    setToken(null);
-  };
+    const handleLogout = () => {
+        localStorage.removeItem("token");
+        setToken(null);
+    };
 
-  return (
-    <Routes>
-      {/* Route untuk halaman utama (home) */}
-      <Route
-        path="/"
-        element={
-          token ? (
-            <Home onLogout={handleLogout} isLoggedIn={!!token} />
-          ) : (
-            <Navigate to="/login" replace />
-          )
-        }
-      />
+    return (
+        <Routes>
+            {/* Route untuk halaman utama (home) */}
+            <Route
+                path="/"
+                element={
+                    token ? (
+                        <Home onLogout={handleLogout} isLoggedIn={!!token} />
+                    ) : (
+                        <Navigate to="/login" replace />
+                    )
+                }
+            />
 
-      <Route
-        path="/saved"
-        element={
-          token ? (
-            <Saved />
-          ) : (
-            <Navigate to="/login" replace />
-          )
-        }
-      />
+            <Route
+                path="/saved"
+                element={token ? <Saved /> : <Navigate to="/login" replace />}
+            />
 
-      <Route
-        path="/about"
-        element={
-          token ? <About /> : <Navigate to="/login" replace />
-        }
-      />  
+            <Route
+                path="/about"
+                element={token ? <About /> : <Navigate to="/login" replace />}
+            />
 
-      {/* Route untuk login */}
-      <Route
-        path="/login"
-        element={
-          !token ? (
-            <Login onLogin={handleLogin} />
-          ) : (
-            <Navigate to="/" replace />
-          )
-        }
-      />
+            {/* Route untuk login */}
+            <Route
+                path="/login"
+                element={
+                    !token ? (
+                        <Login onLogin={handleLogin} />
+                    ) : (
+                        <Navigate to="/" replace />
+                    )
+                }
+            />
 
-      {/* Route untuk signup */}
-      <Route
-        path="/signup"
-        element={
-          !token ? (
-            <Signup />
-          ) : (
-            <Navigate to="/" replace />
-          )
-        }
-      />
+            {/* Route untuk signup */}
+            <Route
+                path="/signup"
+                element={!token ? <Signup /> : <Navigate to="/" replace />}
+            />
 
-      {/* Route untuk reset password */}
-      <Route
-        path="/reset-password"
-        element={
-          !token ? (
-            <Reset />
-          ) : (
-            <Navigate to="/" replace />
-          )
-        }
-      />
+            {/* Route untuk reset password */}
+            <Route
+                path="/reset-password"
+                element={!token ? <Reset /> : <Navigate to="/" replace />}
+            />
 
-      {/* Catch-all route */}
-      <Route path="*" element={<Navigate to={token ? "/" : "/login"} replace />} />
-    </Routes>
-  );
+            {/* Catch-all route */}
+            <Route
+                path="*"
+                element={<Navigate to={token ? "/" : "/login"} replace />}
+            />
+        </Routes>
+    );
 }

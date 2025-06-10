@@ -14,168 +14,184 @@ const ITEMS_PER_PAGE = 6;
 const REGIONS = ["Bangkalan", "Pamekasan", "Sampang", "Sumenep"];
 
 export default function RecommendationSection() {
-  const [page, setPage] = useState(0);
-  const [fade, setFade] = useState(false);
-  const [selectedPlace, setSelectedPlace] = useState<Place | null>(null);
-  const [places, setPlaces] = useState<Place[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [selectedRegion, setSelectedRegion] = useState<string | null>(null);
-  const [predictedPlaces, setPredictedPlaces] = useState<Place[]>([]);
+    const [page, setPage] = useState(0);
+    const [fade, setFade] = useState(false);
+    const [selectedPlace, setSelectedPlace] = useState<Place | null>(null);
+    const [places, setPlaces] = useState<Place[]>([]);
+    const [loading, setLoading] = useState(true);
+    const [selectedRegion, setSelectedRegion] = useState<string | null>(null);
+    const [predictedPlaces, setPredictedPlaces] = useState<Place[]>([]);
 
-  const filteredPlaces = selectedRegion
-    ? (predictedPlaces.length > 0 ? predictedPlaces : places).filter((place) =>
-        place.location.toLowerCase().includes(selectedRegion.toLowerCase())
-      )
-    : places;
+    const filteredPlaces = selectedRegion
+        ? (predictedPlaces.length > 0 ? predictedPlaces : places).filter(
+                (place) =>
+                    place.location
+                        .toLowerCase()
+                        .includes(selectedRegion.toLowerCase())
+            )
+        : places;
 
-  const maxPage = Math.ceil(filteredPlaces.length / ITEMS_PER_PAGE) - 1;
-  const start = page * ITEMS_PER_PAGE;
-  const end = start + ITEMS_PER_PAGE;
-  const visiblePlaces = filteredPlaces.slice(start, end);
+    const maxPage = Math.ceil(filteredPlaces.length / ITEMS_PER_PAGE) - 1;
+    const start = page * ITEMS_PER_PAGE;
+    const end = start + ITEMS_PER_PAGE;
+    const visiblePlaces = filteredPlaces.slice(start, end);
 
-  const changePage = (newPage: number) => {
-    if (newPage === page) return;
-    setFade(true);
-    setTimeout(() => {
-      setPage(newPage);
-      setFade(false);
-    }, 200);
-  };
+    const changePage = (newPage: number) => {
+        if (newPage === page) return;
+        setFade(true);
+        setTimeout(() => {
+            setPage(newPage);
+            setFade(false);
+        }, 200);
+    };
 
-  const controls = useAnimation();
-  const [ref, inView] = useInView({ triggerOnce: false, threshold: 0.2 });
+    const controls = useAnimation();
+    const [ref, inView] = useInView({ triggerOnce: false, threshold: 0.2 });
 
-  useEffect(() => {
-    if (inView) {
-      controls.start("visible");
-    } else {
-      controls.start("hidden");
+    useEffect(() => {
+        if (inView) {
+            controls.start("visible");
+        } else {
+            controls.start("hidden");
+        }
+    }, [inView]);
+
+    useEffect(() => {
+        axios
+            .get("https://kanto-backend.up.railway.app/destinations")
+            .then((response) => {
+                const fetchedPlaces: Place[] = response.data;
+                setPlaces(fetchedPlaces);
+                setLoading(false);
+            })
+            .catch((error) => {
+                console.error("Error fetching places:", error);
+                setLoading(false);
+            });
+    }, []);
+
+    const handleRegionClick = (region: string) => {
+        if (region === selectedRegion) {
+            // If the same region is clicked again, reset to default
+            setSelectedRegion(null);
+            setPredictedPlaces([]);
+        } else {
+            setSelectedRegion(region);
+            setLoading(true);
+
+            // Make prediction request to the ML API
+            axios
+                .post("https://kanto-backend.up.railway.app/recommendation", {
+                    city: region,
+                })
+                .then((response) => {
+                    if (response.data.success) {
+                        const sortedRecommendations =
+                            response.data.recommendation.recommendations.sort(
+                                (a: Place, b: Place) => b.rating - a.rating
+                            );
+                        setPredictedPlaces(sortedRecommendations);
+                    } else {
+                        console.error(
+                            "Error in prediction:",
+                            response.data.message
+                        );
+                    }
+                    setLoading(false);
+                })
+                .catch((error) => {
+                    console.error("Error fetching prediction data:", error);
+                    setLoading(false);
+                });
+        }
+    };
+
+    useEffect(() => {
+        setPage(0);
+    }, [selectedRegion]);
+
+    if (loading) {
+        return <div>Loading...</div>;
     }
-  }, [inView]);
 
-  useEffect(() => {
-    axios
-      .get("https://kanto-backend.up.railway.app/destinations")
-      .then((response) => {
-        const fetchedPlaces: Place[] = response.data;
-        setPlaces(fetchedPlaces);
-        setLoading(false);
-      })
-      .catch((error) => {
-        console.error("Error fetching places:", error);
-        setLoading(false);
-      });
-  }, []);
+    return (
+        <motion.section
+            ref={ref}
+            className="recommendation-section"
+            initial="hidden"
+            animate={controls}
+            variants={{
+                hidden: { opacity: 0, y: 30 },
+                visible: {
+                    opacity: 1,
+                    y: 0,
+                    transition: { duration: 0.8, ease: "easeOut" },
+                },
+            }}
+        >
+            <div className="recommendation-header">
+                <div className="recommendation-title">
+                    <h2>What you might like</h2>
+                    <p>Based on your survey result</p>
+                </div>
 
-  const handleRegionClick = (region: string) => {
-    if (region === selectedRegion) {
-      // If the same region is clicked again, reset to default
-      setSelectedRegion(null);
-      setPredictedPlaces([]);
-    } else {
-      setSelectedRegion(region);
-      setLoading(true);
+                <div className="recommendation-controls">
+                    <div className="region-filters">
+                        {REGIONS.map((region) => (
+                            <button
+                                key={region}
+                                onClick={() => handleRegionClick(region)}
+                                className={`region-btn ${
+                                    selectedRegion === region ? "active" : ""
+                                }`}
+                            >
+                                {region}
+                            </button>
+                        ))}
+                    </div>
 
-      // Make prediction request to the ML API
-      axios
-        .post("https://kanto-backend.up.railway.app/recommendation", {
-            city: region
-        })
-        .then((response) => {
-            if (response.data.success) {
-            const sortedRecommendations = response.data.recommendation.recommendations.sort(
-                (a: Place, b: Place) => b.rating - a.rating
-            );
-            setPredictedPlaces(sortedRecommendations);
-            } else {
-            console.error("Error in prediction:", response.data.message);
-            }
-            setLoading(false);
-        })
-        .catch((error) => {
-          console.error("Error fetching prediction data:", error);
-          setLoading(false);
-        });
-    }
-  };
-
-  useEffect(() => {
-    setPage(0);
-  }, [selectedRegion]);
-
-  if (loading) {
-    return <div>Loading...</div>;
-  }
-
-  return (
-    <motion.section
-      ref={ref}
-      className="recommendation-section"
-      initial="hidden"
-      animate={controls}
-      variants={{
-        hidden: { opacity: 0, y: 30 },
-        visible: {
-          opacity: 1,
-          y: 0,
-          transition: { duration: 0.8, ease: "easeOut" },
-        },
-      }}
-    >
-      <div className="recommendation-header">
-        <div className="recommendation-title">
-          <h2>What you might like</h2>
-          <p>Based on your survey result</p>
-        </div>
-
-        <div className="recommendation-controls">
-          <div className="region-filters">
-            {REGIONS.map((region) => (
-              <button
-                key={region}
-                onClick={() => handleRegionClick(region)}
-                className={`region-btn ${selectedRegion === region ? "active" : ""}`}
-              >
-                {region}
-              </button>
-            ))}
-          </div>
-
-          <div className="recommendation-nav-group">
-            <div className="recommendation-nav">
-              <button
-                className={`nav-btn ${page > 0 ? "active" : "outline"}`}
-                onClick={() => changePage(page - 1)}
-                disabled={page === 0}
-              >
-                <Icon icon={arrowLeft} width="16" />
-              </button>
-              <button
-                className={`nav-btn ${page < maxPage ? "active" : "outline"}`}
-                onClick={() => changePage(page + 1)}
-                disabled={page === maxPage}
-              >
-                <Icon icon={arrowRight} width="16" />
-              </button>
+                    <div className="recommendation-nav-group">
+                        <div className="recommendation-nav">
+                            <button
+                                className={`nav-btn ${
+                                    page > 0 ? "active" : "outline"
+                                }`}
+                                onClick={() => changePage(page - 1)}
+                                disabled={page === 0}
+                            >
+                                <Icon icon={arrowLeft} width="16" />
+                            </button>
+                            <button
+                                className={`nav-btn ${
+                                    page < maxPage ? "active" : "outline"
+                                }`}
+                                onClick={() => changePage(page + 1)}
+                                disabled={page === maxPage}
+                            >
+                                <Icon icon={arrowRight} width="16" />
+                            </button>
+                        </div>
+                        <div className="recommendation-page-indicator">
+                            Page {page + 1} of {maxPage + 1}
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div className="recommendation-page-indicator">
-              Page {page + 1} of {maxPage + 1}
+
+            <div className={`recommendation-grid ${fade ? "fade-out" : ""}`}>
+                {visiblePlaces.map((place, i) => (
+                    <div key={i} onClick={() => setSelectedPlace(place)}>
+                        <PlaceCard {...place} />
+                    </div>
+                ))}
             </div>
-          </div>
-        </div>
-      </div>
 
-      <div className={`recommendation-grid ${fade ? "fade-out" : ""}`}>
-        {visiblePlaces.map((place, i) => (
-          <div key={i} onClick={() => setSelectedPlace(place)}>
-            <PlaceCard {...place} />
-          </div>
-        ))}
-      </div>
-
-      {selectedPlace && (
-        <PlaceSidebar place={selectedPlace} onClose={() => setSelectedPlace(null)} />
-      )}
-    </motion.section>
-  );
+            {selectedPlace && (
+                <PlaceSidebar
+                    place={selectedPlace}
+                    onClose={() => setSelectedPlace(null)}
+                />
+            )}
+        </motion.section>
+    );
 }

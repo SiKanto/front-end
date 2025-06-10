@@ -1,76 +1,76 @@
-@import './variables.css';
-@import './fonts.css';
+@import "./variables.css";
+@import "./fonts.css";
 
 .footer {
-  background-color: var(--color-thunderbird-600);
-  padding: 2rem 1.5rem;
-  color: white;
-  font-family: var(--font-poppins);
+    background-color: var(--color-thunderbird-600);
+    padding: 2rem 1.5rem;
+    color: white;
+    font-family: var(--font-poppins);
 }
 
 .footer-container {
-  max-width: 1280px;
-  margin: 0 auto;
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  gap: 2rem;
-  flex-wrap: wrap;
+    max-width: 1280px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 2rem;
+    flex-wrap: wrap;
 }
 
 /* Kolom Footer */
 .footer-left,
 .footer-middle,
 .footer-right {
-  flex: 1;
-  min-width: 200px;
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
+    flex: 1;
+    min-width: 200px;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
 }
 
 /* Logo */
 .footer-logo {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-weight: 600;
-  font-size: var(--text-xl);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 600;
+    font-size: var(--text-xl);
 }
 
 /* Link */
 .footer-link,
 .signup-link-footer,
 .login-link-footer {
-  color: white;
-  text-decoration: none;
-  font-size: var(--text-sm);
-  font-weight: 500;
+    color: white;
+    text-decoration: none;
+    font-size: var(--text-sm);
+    font-weight: 500;
 }
 
 .footer-link:hover,
 .signup-link-footer:hover,
 .login-link-footer:hover {
-  text-decoration: underline;
+    text-decoration: underline;
 }
 
 /* Bagian kanan: aksi + copyright */
 .footer-actions {
-  display: flex;
-  justify-content: flex-end;
-  gap: 1rem;
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
 }
 
 .footer-copy {
-  font-size: var(--text-xs);
-  color: white;
-  opacity: 0.85;
-  line-height: 1.2;
-  margin-top: 1rem;
-  text-align: right;
+    font-size: var(--text-xs);
+    color: white;
+    opacity: 0.85;
+    line-height: 1.2;
+    margin-top: 1rem;
+    text-align: right;
 }
 
 .footer-subcopy {
-  font-size: var(--text-xs);
-  opacity: 0.75;
+    font-size: var(--text-xs);
+    opacity: 0.75;
 }

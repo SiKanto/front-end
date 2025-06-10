@@ -8,42 +8,45 @@ import SurveySidebar from "../components/surveySidebar";
 import "../styles/home.css";
 
 interface HomeProps {
-  onLogout: () => void;
-  isLoggedIn: boolean;
+    onLogout: () => void;
+    isLoggedIn: boolean;
 }
 
 export default function Home({ onLogout, isLoggedIn }: HomeProps) {
-  const [showSidebar, setShowSidebar] = useState(false);
+    const [showSidebar, setShowSidebar] = useState(false);
 
-  useEffect(() => {
-    const handler = () => setShowSidebar(false);
-    window.addEventListener("closeSurveySidebar", handler);
-    return () => window.removeEventListener("closeSurveySidebar", handler);
-  }, []);
+    useEffect(() => {
+        const handler = () => setShowSidebar(false);
+        window.addEventListener("closeSurveySidebar", handler);
+        return () => window.removeEventListener("closeSurveySidebar", handler);
+    }, []);
 
-  return (
-    <div className="font-sans">
-      <Navbar onLogout={onLogout} isLoggedIn={isLoggedIn} />
-      
-      <Hero onTakeSurvey={() => setShowSidebar(true)} />
+    return (
+        <div className="font-sans">
+            <Navbar onLogout={onLogout} isLoggedIn={isLoggedIn} />
 
-      <main className="main-container">
-        <RecommendationSection />
-      </main>
+            <Hero onTakeSurvey={() => setShowSidebar(true)} />
 
-      <MapSection />
-      <Footer />
+            <main className="main-container">
+                <RecommendationSection />
+            </main>
 
-      {showSidebar && (
-        <div className="survey-overlay" onClick={() => setShowSidebar(false)}>
-          <div
-            className="survey-slide-container"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <SurveySidebar />
-          </div>
+            <MapSection />
+            <Footer />
+
+            {showSidebar && (
+                <div
+                    className="survey-overlay"
+                    onClick={() => setShowSidebar(false)}
+                >
+                    <div
+                        className="survey-slide-container"
+                        onClick={(e) => e.stopPropagation()}
+                    >
+                        <SurveySidebar />
+                    </div>
+                </div>
+            )}
         </div>
-      )}
-    </div>
-  );
+    );
 }

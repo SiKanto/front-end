@@ -1,7 +1,6 @@
 @font-face {
-  font-family: 'Baltore';
-  src: url('/Baltore.otf') format('opentype');
-  font-weight: normal;
-  font-style: normal;
+    font-family: "Baltore";
+    src: url("/Baltore.otf") format("opentype");
+    font-weight: normal;
+    font-style: normal;
 }
-

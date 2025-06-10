@@ -7,35 +7,41 @@ import "../styles/place-card.css";
 import type { Place } from "../data/dummyPlaces";
 
 interface Props extends Place {
-  id: string;
-  name: string;
-  city: string;
-  rating: number;
-  imageURL: string;
-  onClick?: () => void;
+    id: string;
+    name: string;
+    city: string;
+    rating: number;
+    imageURL: string;
+    onClick?: () => void;
 }
 
-export default function PlaceCard({ name, city, rating, imageURL, onClick }: Props) {
-  return (
-    <div className="place-card" onClick={onClick}>
-      <div className="place-image">
-        <img src={imageURL} alt={name} />
-      </div>
+export default function PlaceCard({
+    name,
+    city,
+    rating,
+    imageURL,
+    onClick,
+}: Props) {
+    return (
+        <div className="place-card" onClick={onClick}>
+            <div className="place-image">
+                <img src={imageURL} alt={name} />
+            </div>
 
-      <div className="place-body">
-        <div className="place-info">
-          <p className="place-name">{name}</p>
-          <div className="place-location">
-            <Icon icon={pinIcon} className="icon" />
-            {city}
-          </div>
-        </div>
+            <div className="place-body">
+                <div className="place-info">
+                    <p className="place-name">{name}</p>
+                    <div className="place-location">
+                        <Icon icon={pinIcon} className="icon" />
+                        {city}
+                    </div>
+                </div>
 
-        <div className="place-rating">
-          <Icon icon={starIcon} className="icon" />
-          {rating}
+                <div className="place-rating">
+                    <Icon icon={starIcon} className="icon" />
+                    {rating}
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
-  );
+    );
 }

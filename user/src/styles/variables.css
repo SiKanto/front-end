@@ -1,42 +1,42 @@
 :root {
-  /* COLOR PALETTE */
-  --color-thunderbird-50: #fff0f0;
-  --color-thunderbird-100: #ffdddd;
-  --color-thunderbird-200: #ffc1c1;
-  --color-thunderbird-300: #ff9595;
-  --color-thunderbird-400: #ff5959;
-  --color-thunderbird-500: #ff2626;
-  --color-thunderbird-600: #fc0606;
-  --color-thunderbird-700: #dc0000;
-  --color-thunderbird-800: #af0505;
-  --color-thunderbird-900: #900c0c;
-  --color-thunderbird-950: #500000;
+    /* COLOR PALETTE */
+    --color-thunderbird-50: #fff0f0;
+    --color-thunderbird-100: #ffdddd;
+    --color-thunderbird-200: #ffc1c1;
+    --color-thunderbird-300: #ff9595;
+    --color-thunderbird-400: #ff5959;
+    --color-thunderbird-500: #ff2626;
+    --color-thunderbird-600: #fc0606;
+    --color-thunderbird-700: #dc0000;
+    --color-thunderbird-800: #af0505;
+    --color-thunderbird-900: #900c0c;
+    --color-thunderbird-950: #500000;
 
-  --color-white: #ffffff;
-  --color-black: #1e1e1e;
-  --color-success: #02864A;
-  --color-warning: #F8BD1A;
+    --color-white: #ffffff;
+    --color-black: #1e1e1e;
+    --color-success: #02864a;
+    --color-warning: #f8bd1a;
 
-  /* FONT FAMILY */
-  --font-baltore: 'Baltore', sans-serif;
-  --font-poppins: 'Poppins', sans-serif;
+    /* FONT FAMILY */
+    --font-baltore: "Baltore", sans-serif;
+    --font-poppins: "Poppins", sans-serif;
 
-  /* TYPOGRAPHY */
-  --text-xs: 12px;
-  --text-sm: 14px;
-  --text-base: 16px;
-  --text-lg: 18px;
-  --text-xl: 20px;
-  --text-2xl: 24px;
-  --text-3xl: 30px;
-  --text-4xl: 36px;
-  --text-5xl: 48px;
-  --text-6xl: 60px;
-  --text-7xl: 72px;
-  --text-8xl: 96px;
-  --text-9xl: 128px;
+    /* TYPOGRAPHY */
+    --text-xs: 12px;
+    --text-sm: 14px;
+    --text-base: 16px;
+    --text-lg: 18px;
+    --text-xl: 20px;
+    --text-2xl: 24px;
+    --text-3xl: 30px;
+    --text-4xl: 36px;
+    --text-5xl: 48px;
+    --text-6xl: 60px;
+    --text-7xl: 72px;
+    --text-8xl: 96px;
+    --text-9xl: 128px;
 
-  --leading-normal: 150%;
-  --leading-tight: 125%;
-  --leading-short: 100%;
+    --leading-normal: 150%;
+    --leading-tight: 125%;
+    --leading-short: 100%;
 }
