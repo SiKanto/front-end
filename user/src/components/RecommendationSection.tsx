@@ -11,7 +11,7 @@ import axios from "axios";
 import type { Place } from "../data/dummyPlaces";
 
 const ITEMS_PER_PAGE = 6;
-const REGIONS = ["Bangkalan", "Pamekasan", "Sampang", "Sumenep"];
+const REGIONS = ["Semua", "Bangkalan", "Pamekasan", "Sampang", "Sumenep"];
 
 interface RecommendationSectionProps {
     selectedRegion: string | null;
@@ -30,14 +30,17 @@ export default function RecommendationSection({
     const [predictedPlaces, setPredictedPlaces] = useState<Place[]>([]);
 
     // Filter places based on selectedRegion
-    const filteredPlaces = selectedRegion
-        ? (predictedPlaces.length > 0 ? predictedPlaces : places).filter(
-                (place) =>
-                    place.location
-                        .toLowerCase()
-                        .includes(selectedRegion.toLowerCase())
-            )
-        : places;
+    const filteredPlaces =
+        selectedRegion && selectedRegion !== "Semua"
+            ? (predictedPlaces.length > 0 ? predictedPlaces : places).filter(
+                  (place) =>
+                      place.location
+                          .toLowerCase()
+                          .includes(selectedRegion.toLowerCase())
+              )
+            : predictedPlaces.length > 0
+            ? predictedPlaces
+            : places;
 
     const maxPage = Math.max(
         Math.ceil(filteredPlaces.length / ITEMS_PER_PAGE) - 1,
@@ -72,7 +75,7 @@ export default function RecommendationSection({
             .get("https://kanto-backend.up.railway.app/destinations")
             .then((response) => {
                 const fetchedPlaces: Place[] = response.data;
-                console.log(fetchedPlaces)
+                console.log(fetchedPlaces);
                 setPlaces(fetchedPlaces);
                 setLoading(false);
             })
@@ -146,7 +149,12 @@ export default function RecommendationSection({
                         {REGIONS.map((region) => (
                             <button
                                 key={region}
-                                onClick={() => onRegionSelect(region)} // Use onRegionSelect prop to update selectedRegion
+                                onClick={() => {
+                                    if (region === "Semua") {
+                                        setPredictedPlaces([]); // reset rekomendasi
+                                    }
+                                    onRegionSelect(region);
+                                }}
                                 className={`region-btn ${
                                     selectedRegion === region ? "active" : ""
                                 }`}

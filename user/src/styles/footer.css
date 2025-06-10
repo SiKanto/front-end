@@ -41,16 +41,19 @@
 /* Link */
 .footer-link,
 .signup-link-footer,
-.login-link-footer {
+.login-link-footer,
+.logout-link-footer {
     color: white;
     text-decoration: none;
     font-size: var(--text-sm);
     font-weight: 500;
+    cursor: pointer;
 }
 
 .footer-link:hover,
 .signup-link-footer:hover,
-.login-link-footer:hover {
+.login-link-footer:hover,
+.logout-link-footer:hover {
     text-decoration: underline;
 }
 

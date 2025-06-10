@@ -1,22 +1,21 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Logo from "../assets/images/logo-kanto-red.png";
 import { Icon } from "@iconify/react";
 import menuIcon from "@iconify/icons-solar/hamburger-menu-outline";
 import closeIcon from "@iconify/icons-solar/close-circle-outline";
+import { useAuth } from "../contexts/authContext"; // sesuaikan path
 import "../styles/navbar.css";
 
-interface NavbarProps {
-    isLoggedIn: boolean;
-    onLogout: () => void;
-}
-
-export default function Navbar({ isLoggedIn, onLogout }: NavbarProps) {
+export default function Navbar() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const { isLoggedIn, logout } = useAuth();
+    const navigate = useNavigate();
 
     const handleLogout = () => {
-        onLogout();
+        logout();
         setIsMenuOpen(false);
+        navigate("/login");
     };
 
     return (
@@ -25,11 +24,7 @@ export default function Navbar({ isLoggedIn, onLogout }: NavbarProps) {
                 {/* Logo */}
                 <div className="navbar-left">
                     <Link to="/" className="navbar-logo">
-                        <img
-                            src={Logo}
-                            alt="Kanto Logo"
-                            className="logo-image"
-                        />
+                        <img src={Logo} alt="Kanto Logo" className="logo-image" />
                     </Link>
                 </div>
 
@@ -50,18 +45,13 @@ export default function Navbar({ isLoggedIn, onLogout }: NavbarProps) {
                 <div className="navbar-right">
                     {!isLoggedIn ? (
                         <>
-                            <Link to="/signup" className="signup-link">
-                                Sign up
-                            </Link>
+                            <Link to="/signup" className="signup-link">Sign up</Link>
                             <Link to="/login">
                                 <button className="login-button">Login</button>
                             </Link>
                         </>
                     ) : (
-                        <button
-                            onClick={handleLogout}
-                            className="logout-button"
-                        >
+                        <button onClick={handleLogout} className="logout-button">
                             Logout
                         </button>
                     )}
@@ -73,36 +63,20 @@ export default function Navbar({ isLoggedIn, onLogout }: NavbarProps) {
                     onClick={() => setIsMenuOpen(!isMenuOpen)}
                     aria-label="Toggle menu"
                 >
-                    <Icon
-                        icon={isMenuOpen ? closeIcon : menuIcon}
-                        width="28"
-                        height="28"
-                    />
+                    <Icon icon={isMenuOpen ? closeIcon : menuIcon} width="28" height="28" />
                 </button>
             </div>
 
             {/* Mobile Dropdown */}
             <div className={`navbar-mobile ${isMenuOpen ? "active" : ""}`}>
                 <nav className="navbar-menu">
-                    <Link
-                        to="/recommendation"
-                        className="navbar-link"
-                        onClick={() => setIsMenuOpen(false)}
-                    >
+                    <Link to="/recommendation" className="navbar-link" onClick={() => setIsMenuOpen(false)}>
                         Recommendation
                     </Link>
-                    <Link
-                        to="/saved"
-                        className="navbar-link"
-                        onClick={() => setIsMenuOpen(false)}
-                    >
+                    <Link to="/saved" className="navbar-link" onClick={() => setIsMenuOpen(false)}>
                         Saved
                     </Link>
-                    <Link
-                        to="/about"
-                        className="navbar-link"
-                        onClick={() => setIsMenuOpen(false)}
-                    >
+                    <Link to="/about" className="navbar-link" onClick={() => setIsMenuOpen(false)}>
                         About
                     </Link>
                 </nav>
@@ -110,25 +84,15 @@ export default function Navbar({ isLoggedIn, onLogout }: NavbarProps) {
                 <div className="navbar-actions">
                     {!isLoggedIn ? (
                         <>
-                            <Link
-                                to="/signup"
-                                className="signup-link"
-                                onClick={() => setIsMenuOpen(false)}
-                            >
+                            <Link to="/signup" className="signup-link" onClick={() => setIsMenuOpen(false)}>
                                 Sign up
                             </Link>
-                            <Link
-                                to="/login"
-                                onClick={() => setIsMenuOpen(false)}
-                            >
+                            <Link to="/login" onClick={() => setIsMenuOpen(false)}>
                                 <button className="login-button">Login</button>
                             </Link>
                         </>
                     ) : (
-                        <button
-                            onClick={handleLogout}
-                            className="logout-button"
-                        >
+                        <button onClick={handleLogout} className="logout-button">
                             Logout
                         </button>
                     )}

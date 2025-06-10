@@ -5,7 +5,6 @@ import { useEffect, useState } from "react";
 import { Icon } from "@iconify/react";
 import heartIcon from "@iconify/icons-solar/heart-outline";
 import heartFilled from "@iconify/icons-solar/heart-bold";
-import shareIcon from "@iconify/icons-solar/share-outline";
 import starIcon from "@iconify/icons-solar/star-bold";
 import clockIcon from "@iconify/icons-solar/clock-circle-outline";
 import tagIcon from "@iconify/icons-solar/ticket-outline";
@@ -63,9 +62,6 @@ export default function PlaceSidebar({ place, onClose }: Props) {
                                     isSaved(place._id) ? heartFilled : heartIcon
                                 }
                             />
-                        </button>
-                        <button aria-label="Share">
-                            <Icon icon={shareIcon} />
                         </button>
                     </div>
 
