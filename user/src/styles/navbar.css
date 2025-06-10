@@ -1,0 +1,219 @@
+@import "./variables.css";
+@import "./fonts.css";
+
+.navbar {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    background-color: var(--color-white);
+    padding: 1rem 1.5rem;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+    font-family: var(--font-poppins);
+}
+
+.navbar-container {
+    max-width: 1280px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+    gap: 2rem;
+}
+
+/* ==== Flex layout per bagian ==== */
+.navbar-left,
+.navbar-center,
+.navbar-right {
+    display: flex;
+    align-items: center;
+}
+
+.navbar-left {
+    flex: 1;
+    justify-content: flex-start;
+}
+
+.navbar-center {
+    flex: 1;
+    justify-content: center;
+    gap: 2.5rem;
+}
+
+.navbar-right {
+    flex: 1;
+    justify-content: flex-end;
+    gap: 1rem;
+}
+
+/* ==== Logo ==== */
+.navbar-logo {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    text-decoration: none;
+}
+
+.logo-image {
+    height: 32px;
+    width: auto;
+}
+
+/* ==== Link ==== */
+.navbar-menu {
+    display: flex;
+    gap: 2.5rem;
+}
+
+.navbar-link {
+    color: var(--color-black);
+    text-decoration: none;
+    font-size: var(--text-sm);
+    transition: color 0.3s;
+}
+
+.navbar-link:hover {
+    color: var(--color-thunderbird-700);
+}
+
+/* ==== Auth ==== */
+.navbar-actions {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.signup-link {
+    color: var(--color-thunderbird-700);
+    text-decoration: none;
+    font-size: var(--text-sm);
+    font-weight: 500;
+}
+
+.signup-link:hover {
+    text-decoration: underline;
+}
+
+.login-button,
+.logout-button {
+    font-family: var(--font-poppins);
+    background-color: var(--color-thunderbird-600);
+    color: white;
+    font-size: var(--text-sm);
+    font-weight: 500;
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 9999px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.login-button:hover,
+.logout-button:hover {
+    background-color: var(--color-thunderbird-700);
+}
+
+/* ==== Toggle Button ==== */
+.navbar-toggle {
+    background: none;
+    border: none;
+    display: none;
+    cursor: pointer;
+    z-index: 10001;
+    padding: 0.25rem;
+    margin-left: auto;
+}
+
+/* ==== Mobile Menu ==== */
+.navbar-mobile {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background-color: var(--color-white);
+    padding: 1rem;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    z-index: 999;
+}
+
+.navbar-mobile.active {
+    display: flex;
+}
+
+.navbar-mobile .navbar-menu,
+.navbar-mobile .navbar-actions {
+    flex-direction: column;
+    gap: 0.75rem;
+    width: 100%;
+    align-items: center;
+}
+
+.navbar-mobile .navbar-link,
+.navbar-mobile .signup-link,
+.navbar-mobile .login-button,
+.navbar-mobile .logout-button {
+    width: 100%;
+    text-align: center;
+}
+
+/* ==== Responsive Rules ==== */
+@media (max-width: 768px) {
+    .navbar-container {
+        justify-content: space-between;
+    }
+
+    .navbar-left {
+        display: flex;
+        flex: 1;
+        justify-content: flex-start;
+    }
+
+    .navbar-toggle {
+        display: block;
+        position: relative;
+    }
+
+    .navbar-center,
+    .navbar-right {
+        display: none;
+    }
+
+    .navbar-mobile {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background-color: var(--color-white);
+        padding: 1.5rem 1rem;
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+        box-shadow: 0 6px 10px rgba(0, 0, 0, 0.1);
+        z-index: 9999;
+    }
+
+    .navbar-mobile.active {
+        display: flex;
+    }
+
+    .navbar-mobile .navbar-menu,
+    .navbar-mobile .navbar-actions {
+        flex-direction: column;
+        gap: 0.75rem;
+        width: 100%;
+        align-items: center;
+    }
+
+    .navbar-mobile .navbar-link,
+    .navbar-mobile .signup-link,
+    .navbar-mobile .login-button,
+    .navbar-mobile .logout-button {
+        width: 100%;
+        text-align: center;
+    }
+}
