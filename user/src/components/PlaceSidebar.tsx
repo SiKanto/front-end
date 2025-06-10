@@ -41,7 +41,6 @@ export default function PlaceSidebar({ place, onClose }: Props) {
 
         if (storedToken) {
             setToken(storedToken);
-            console.log("Token ditemukan:", storedToken);
         } else {
             console.warn("Token tidak ditemukan di localStorage");
         }
@@ -50,7 +49,6 @@ export default function PlaceSidebar({ place, onClose }: Props) {
             try {
                 const parsedUser = JSON.parse(storedUser);
                 setUser(parsedUser);
-                console.log("User ditemukan:", parsedUser);
             } catch (err) {
                 console.error("Gagal parse user:", err);
             }
@@ -99,7 +97,6 @@ export default function PlaceSidebar({ place, onClose }: Props) {
             userId: user?.id,
         };
 
-        console.log("Submitting review with data:", reviewData);
         try {
             const res = await fetch(
                 "https://kanto-backend.up.railway.app/reviews",
