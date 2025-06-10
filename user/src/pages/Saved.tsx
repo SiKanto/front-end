@@ -55,7 +55,7 @@ export default function Saved() {
                     <div className="saved-grid scroll-fade">
                         {savedPlaces.map((place) => (
                             <PlaceCard
-                                key={place.id}
+                                key={place._id}
                                 {...place}
                                 onClick={() => setSelectedPlace(place)}
                             />
