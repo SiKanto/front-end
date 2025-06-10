@@ -20,9 +20,10 @@ export default function RecommendationSection() {
   const [places, setPlaces] = useState<Place[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedRegion, setSelectedRegion] = useState<string | null>(null);
+  const [predictedPlaces, setPredictedPlaces] = useState<Place[]>([]);
 
   const filteredPlaces = selectedRegion
-    ? places.filter((place) =>
+    ? (predictedPlaces.length > 0 ? predictedPlaces : places).filter((place) =>
         place.location.toLowerCase().includes(selectedRegion.toLowerCase())
       )
     : places;
@@ -66,6 +67,38 @@ export default function RecommendationSection() {
       });
   }, []);
 
+  const handleRegionClick = (region: string) => {
+    if (region === selectedRegion) {
+      // If the same region is clicked again, reset to default
+      setSelectedRegion(null);
+      setPredictedPlaces([]);
+    } else {
+      setSelectedRegion(region);
+      setLoading(true);
+
+      // Make prediction request to the ML API
+      axios
+        .post("https://kanto-backend.up.railway.app/recommendation", {
+            city: region
+        })
+        .then((response) => {
+            if (response.data.success) {
+            const sortedRecommendations = response.data.recommendation.recommendations.sort(
+                (a: Place, b: Place) => b.rating - a.rating
+            );
+            setPredictedPlaces(sortedRecommendations);
+            } else {
+            console.error("Error in prediction:", response.data.message);
+            }
+            setLoading(false);
+        })
+        .catch((error) => {
+          console.error("Error fetching prediction data:", error);
+          setLoading(false);
+        });
+    }
+  };
+
   useEffect(() => {
     setPage(0);
   }, [selectedRegion]);
@@ -100,9 +133,7 @@ export default function RecommendationSection() {
             {REGIONS.map((region) => (
               <button
                 key={region}
-                onClick={() =>
-                  setSelectedRegion(region === selectedRegion ? null : region)
-                }
+                onClick={() => handleRegionClick(region)}
                 className={`region-btn ${selectedRegion === region ? "active" : ""}`}
               >
                 {region}

@@ -147,19 +147,18 @@
 
 .close-btn {
   position: absolute;
-  top: 12px;
-  right: 12px;
-  font-size: 24px;
+  top: 0px;
+  right: 10px;
+  font-size: 34px;
   background: transparent;
   border: none;
   cursor: pointer;
-  color: #333;
+  color: #dc0000;
 }
 
 .sidebar-image {
   height: 200px;
   background: #f0f0f0;
-  overflow: hidden;
 }
 
 .sidebar-image img {

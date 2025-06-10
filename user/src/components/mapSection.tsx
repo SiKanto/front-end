@@ -17,7 +17,7 @@ type Category =
   | "Budaya"
   | "Edukasi"
   | "Kebun"
-  | "Kuliner"
+  | "Cafe"
   | "Pantai"
   | "Religi"
   | "Taman"
@@ -29,7 +29,7 @@ const icons: Record<Category, L.Icon> = {
   Budaya: new L.Icon({ iconUrl: "/icons/culture.png", iconSize: [32, 32] }),
   Edukasi: new L.Icon({ iconUrl: "/icons/education.png", iconSize: [32, 32] }),
   Kebun: new L.Icon({ iconUrl: "/icons/garden.png", iconSize: [32, 32] }),
-  Kuliner: new L.Icon({ iconUrl: "/icons/culinary.png", iconSize: [32, 32] }),
+  Cafe: new L.Icon({ iconUrl: "/icons/cafe.png", iconSize: [32, 32] }),
   Pantai: new L.Icon({ iconUrl: "/icons/beach.png", iconSize: [32, 32] }),
   Religi: new L.Icon({ iconUrl: "/icons/religion.png", iconSize: [32, 32] }),
   Taman: new L.Icon({ iconUrl: "/icons/park.png", iconSize: [32, 32] }),
@@ -161,7 +161,7 @@ export default function MapSection() {
                 <li onClick={() => handleSelect("Budaya")}>Budaya</li>
                 <li onClick={() => handleSelect("Edukasi")}>Edukasi</li>
                 <li onClick={() => handleSelect("Kebun")}>Kebun</li>
-                <li onClick={() => handleSelect("Kuliner")}>Kuliner</li>
+                <li onClick={() => handleSelect("Cafe")}>Kuliner</li>
                 <li onClick={() => handleSelect("Pantai")}>Pantai</li>
                 <li onClick={() => handleSelect("Religi")}>Religi</li>
                 <li onClick={() => handleSelect("Taman")}>Taman</li>
