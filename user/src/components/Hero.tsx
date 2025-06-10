@@ -1,4 +1,3 @@
-// File: src/components/Hero.tsx
 import { useEffect, useRef } from "react";
 import "../styles/hero.css";
 import BeachImage from "../assets/images/main-beach.png";

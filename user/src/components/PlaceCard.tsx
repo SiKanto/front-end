@@ -1,5 +1,3 @@
-// File: src/components/PlaceCard.tsx
-
 import { Icon } from "@iconify/react";
 import starIcon from "@iconify/icons-solar/star-bold";
 import pinIcon from "@iconify/icons-solar/map-point-bold";

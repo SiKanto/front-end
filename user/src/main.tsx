@@ -7,7 +7,6 @@ import "./index.css";
 import { SavedPlacesProvider } from "./contexts/SavedPlacesContext.tsx";
 import { AuthProvider } from "./contexts/authContext.tsx";
 
-// Replace with your actual Google Client ID
 const googleClientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
 
 createRoot(document.getElementById("root")!).render(

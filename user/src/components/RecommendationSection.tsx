@@ -15,7 +15,7 @@ const REGIONS = ["Semua", "Bangkalan", "Pamekasan", "Sampang", "Sumenep"];
 
 interface RecommendationSectionProps {
     selectedRegion: string | null;
-    onRegionSelect: (region: string) => void; // Added onRegionSelect prop to handle button clicks
+    onRegionSelect: (region: string) => void;
 }
 
 export default function RecommendationSection({
@@ -33,11 +33,11 @@ export default function RecommendationSection({
     const filteredPlaces =
         selectedRegion && selectedRegion !== "Semua"
             ? (predictedPlaces.length > 0 ? predictedPlaces : places).filter(
-                  (place) =>
-                      place.location
-                          .toLowerCase()
-                          .includes(selectedRegion.toLowerCase())
-              )
+                    (place) =>
+                        place.location
+                            .toLowerCase()
+                            .includes(selectedRegion.toLowerCase())
+                )
             : predictedPlaces.length > 0
             ? predictedPlaces
             : places;
@@ -116,7 +116,7 @@ export default function RecommendationSection({
     }, [selectedRegion]);
 
     useEffect(() => {
-        setPage(0); // Reset page to 0 whenever selectedRegion changes
+        setPage(0);
     }, [selectedRegion]);
 
     if (loading) {
@@ -151,7 +151,7 @@ export default function RecommendationSection({
                                 key={region}
                                 onClick={() => {
                                     if (region === "Semua") {
-                                        setPredictedPlaces([]); // reset rekomendasi
+                                        setPredictedPlaces([]);
                                     }
                                     onRegionSelect(region);
                                 }}

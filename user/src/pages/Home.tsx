@@ -11,10 +11,9 @@ export default function Home() {
     const [showSidebar, setShowSidebar] = useState(false);
     const [selectedRegion, setSelectedRegion] = useState<string | null>(null);
 
-    // Handle region selection from SurveySidebar
     const handleRegionSelect = (region: string) => {
-        setSelectedRegion(region); // Update the selected region
-        setShowSidebar(false); // Close the survey sidebar after selection
+        setSelectedRegion(region);
+        setShowSidebar(false);
     };
 
     return (

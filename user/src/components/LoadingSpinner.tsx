@@ -1,4 +1,3 @@
-// src/components/Loading/LoadingSpinner.tsx
 import React from "react";
 import "../styles/LoadingSpinner.css";
 
