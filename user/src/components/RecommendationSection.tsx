@@ -33,11 +33,11 @@ export default function RecommendationSection({
     const filteredPlaces =
         selectedRegion && selectedRegion !== "Semua"
             ? (predictedPlaces.length > 0 ? predictedPlaces : places).filter(
-                    (place) =>
-                        place.location
-                            .toLowerCase()
-                            .includes(selectedRegion.toLowerCase())
-                )
+                  (place) =>
+                      place.location
+                          .toLowerCase()
+                          .includes(selectedRegion.toLowerCase())
+              )
             : predictedPlaces.length > 0
             ? predictedPlaces
             : places;
@@ -75,7 +75,6 @@ export default function RecommendationSection({
             .get("https://kanto-backend.up.railway.app/destinations")
             .then((response) => {
                 const fetchedPlaces: Place[] = response.data;
-                console.log(fetchedPlaces);
                 setPlaces(fetchedPlaces);
                 setLoading(false);
             })
@@ -96,11 +95,17 @@ export default function RecommendationSection({
             })
             .then((response) => {
                 if (response.data.success) {
-                    const sortedRecommendations =
+                    const predictedRaw =
                         response.data.recommendation.recommendations.sort(
                             (a: Place, b: Place) => b.rating - a.rating
                         );
-                    setPredictedPlaces(sortedRecommendations);
+
+                    // Mapping ke places agar dapat _id dan data lengkap
+                    const mappedRecommendations = predictedRaw.map(
+                        (pred: Partial<Place>) =>
+                            places.find((p) => p.name === pred.name) || pred
+                    );
+                    setPredictedPlaces(mappedRecommendations);
                 } else {
                     console.error(
                         "Error in prediction:",
