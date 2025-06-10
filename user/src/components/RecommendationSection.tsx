@@ -13,25 +13,36 @@ import type { Place } from "../data/dummyPlaces";
 const ITEMS_PER_PAGE = 6;
 const REGIONS = ["Bangkalan", "Pamekasan", "Sampang", "Sumenep"];
 
-export default function RecommendationSection() {
+interface RecommendationSectionProps {
+    selectedRegion: string | null;
+    onRegionSelect: (region: string) => void; // Added onRegionSelect prop to handle button clicks
+}
+
+export default function RecommendationSection({
+    selectedRegion,
+    onRegionSelect,
+}: RecommendationSectionProps) {
     const [page, setPage] = useState(0);
     const [fade, setFade] = useState(false);
     const [selectedPlace, setSelectedPlace] = useState<Place | null>(null);
     const [places, setPlaces] = useState<Place[]>([]);
     const [loading, setLoading] = useState(true);
-    const [selectedRegion, setSelectedRegion] = useState<string | null>(null);
     const [predictedPlaces, setPredictedPlaces] = useState<Place[]>([]);
 
+    // Filter places based on selectedRegion
     const filteredPlaces = selectedRegion
         ? (predictedPlaces.length > 0 ? predictedPlaces : places).filter(
-                (place) =>
-                    place.location
-                        .toLowerCase()
-                        .includes(selectedRegion.toLowerCase())
-            )
+              (place) =>
+                  place.location
+                      .toLowerCase()
+                      .includes(selectedRegion.toLowerCase())
+          )
         : places;
 
-    const maxPage = Math.ceil(filteredPlaces.length / ITEMS_PER_PAGE) - 1;
+    const maxPage = Math.max(
+        Math.ceil(filteredPlaces.length / ITEMS_PER_PAGE) - 1,
+        0
+    );
     const start = page * ITEMS_PER_PAGE;
     const end = start + ITEMS_PER_PAGE;
     const visiblePlaces = filteredPlaces.slice(start, end);
@@ -70,44 +81,38 @@ export default function RecommendationSection() {
             });
     }, []);
 
-    const handleRegionClick = (region: string) => {
-        if (region === selectedRegion) {
-            // If the same region is clicked again, reset to default
-            setSelectedRegion(null);
-            setPredictedPlaces([]);
-        } else {
-            setSelectedRegion(region);
-            setLoading(true);
+    useEffect(() => {
+        if (!selectedRegion) return;
 
-            // Make prediction request to the ML API
-            axios
-                .post("https://kanto-backend.up.railway.app/recommendation", {
-                    city: region,
-                })
-                .then((response) => {
-                    if (response.data.success) {
-                        const sortedRecommendations =
-                            response.data.recommendation.recommendations.sort(
-                                (a: Place, b: Place) => b.rating - a.rating
-                            );
-                        setPredictedPlaces(sortedRecommendations);
-                    } else {
-                        console.error(
-                            "Error in prediction:",
-                            response.data.message
+        setLoading(true);
+
+        axios
+            .post("https://kanto-backend.up.railway.app/recommendation", {
+                city: selectedRegion,
+            })
+            .then((response) => {
+                if (response.data.success) {
+                    const sortedRecommendations =
+                        response.data.recommendation.recommendations.sort(
+                            (a: Place, b: Place) => b.rating - a.rating
                         );
-                    }
-                    setLoading(false);
-                })
-                .catch((error) => {
-                    console.error("Error fetching prediction data:", error);
-                    setLoading(false);
-                });
-        }
-    };
+                    setPredictedPlaces(sortedRecommendations);
+                } else {
+                    console.error(
+                        "Error in prediction:",
+                        response.data.message
+                    );
+                }
+                setLoading(false);
+            })
+            .catch((error) => {
+                console.error("Error fetching prediction data:", error);
+                setLoading(false);
+            });
+    }, [selectedRegion]);
 
     useEffect(() => {
-        setPage(0);
+        setPage(0); // Reset page to 0 whenever selectedRegion changes
     }, [selectedRegion]);
 
     if (loading) {
@@ -140,7 +145,7 @@ export default function RecommendationSection() {
                         {REGIONS.map((region) => (
                             <button
                                 key={region}
-                                onClick={() => handleRegionClick(region)}
+                                onClick={() => onRegionSelect(region)} // Use onRegionSelect prop to update selectedRegion
                                 className={`region-btn ${
                                     selectedRegion === region ? "active" : ""
                                 }`}

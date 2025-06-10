@@ -10,7 +10,11 @@ import loveGray from "../assets/mood/love-gray.png";
 import { useState } from "react";
 import "../styles/survey-sidebar.css";
 
-export default function SurveySidebar() {
+interface SurveySidebarProps {
+    onRegionSelect: (region: string) => void; // Callback to handle region selection
+}
+
+export default function SurveySidebar({ onRegionSelect }: SurveySidebarProps) {
     const [selectedMood, setSelectedMood] = useState<string | null>(null);
     const [selectedRegion, setSelectedRegion] = useState<string | null>(null);
     const [selectedTopics, setSelectedTopics] = useState<string[]>([]);
@@ -19,12 +23,7 @@ export default function SurveySidebar() {
 
     const moods = [
         { key: "sad", label: "Sad", colorImg: sad, grayImg: sadGray },
-        {
-            key: "neutral",
-            label: "Neutral",
-            colorImg: neutral,
-            grayImg: neutralGray,
-        },
+        { key: "neutral", label: "Neutral", colorImg: neutral, grayImg: neutralGray },
         { key: "happy", label: "Happy", colorImg: happy, grayImg: happyGray },
         { key: "love", label: "Love", colorImg: love, grayImg: loveGray },
     ];
@@ -44,9 +43,7 @@ export default function SurveySidebar() {
 
     const toggleTopic = (topic: string) => {
         setSelectedTopics((prev) =>
-            prev.includes(topic)
-                ? prev.filter((t) => t !== topic)
-                : [...prev, topic]
+            prev.includes(topic) ? prev.filter((t) => t !== topic) : [...prev, topic]
         );
     };
 
@@ -59,6 +56,9 @@ export default function SurveySidebar() {
             experience,
             importance,
         });
+        if (selectedRegion) {
+            onRegionSelect(selectedRegion); // Pass the selected region to the parent component
+        }
     };
 
     return (
@@ -66,9 +66,7 @@ export default function SurveySidebar() {
             <form onSubmit={handleSubmit}>
                 <button
                     type="button"
-                    onClick={() =>
-                        window.dispatchEvent(new Event("closeSurveySidebar"))
-                    }
+                    onClick={() => window.dispatchEvent(new Event("closeSurveySidebar"))}
                     style={{
                         float: "right",
                         fontWeight: "bold",
@@ -90,16 +88,10 @@ export default function SurveySidebar() {
                                 type="button"
                                 key={mood.key}
                                 onClick={() => setSelectedMood(mood.key)}
-                                className={`mood-icon-btn ${
-                                    isSelected ? "selected" : ""
-                                }`}
+                                className={`mood-icon-btn ${isSelected ? "selected" : ""}`}
                             >
                                 <img
-                                    src={
-                                        isSelected
-                                            ? mood.colorImg
-                                            : mood.grayImg
-                                    }
+                                    src={isSelected ? mood.colorImg : mood.grayImg}
                                     alt={mood.label}
                                     className="mood-icon"
                                 />
@@ -115,9 +107,7 @@ export default function SurveySidebar() {
                             type="button"
                             key={region}
                             onClick={() => setSelectedRegion(region)}
-                            className={
-                                selectedRegion === region ? "selected" : ""
-                            }
+                            className={selectedRegion === region ? "selected" : ""}
                         >
                             {region}
                         </button>
@@ -131,9 +121,7 @@ export default function SurveySidebar() {
                             type="button"
                             key={topic}
                             onClick={() => toggleTopic(topic)}
-                            className={
-                                selectedTopics.includes(topic) ? "selected" : ""
-                            }
+                            className={selectedTopics.includes(topic) ? "selected" : ""}
                         >
                             {topic}
                         </button>
@@ -150,8 +138,7 @@ export default function SurveySidebar() {
                 </label>
 
                 <label>
-                    Seberapa penting rekomendasi tempat wisata bagi kamu dalam
-                    merencanakan perjalanan?
+                    Seberapa penting rekomendasi tempat wisata bagi kamu dalam merencanakan perjalanan?
                     <textarea
                         placeholder="Tulis pendapat kamu di sini!"
                         value={importance}

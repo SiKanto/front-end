@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Navbar from "../components/Navbar";
 import Hero from "../components/Hero";
 import RecommendationSection from "../components/RecommendationSection";
@@ -14,23 +14,24 @@ interface HomeProps {
 
 export default function Home({ onLogout, isLoggedIn }: HomeProps) {
     const [showSidebar, setShowSidebar] = useState(false);
+    const [selectedRegion, setSelectedRegion] = useState<string | null>(null);
 
-    useEffect(() => {
-        const handler = () => setShowSidebar(false);
-        window.addEventListener("closeSurveySidebar", handler);
-        return () => window.removeEventListener("closeSurveySidebar", handler);
-    }, []);
+    // Handle region selection from SurveySidebar
+    const handleRegionSelect = (region: string) => {
+        setSelectedRegion(region); // Update the selected region
+        setShowSidebar(false); // Close the survey sidebar after selection
+    };
 
     return (
         <div className="font-sans">
             <Navbar onLogout={onLogout} isLoggedIn={isLoggedIn} />
-
             <Hero onTakeSurvey={() => setShowSidebar(true)} />
-
             <main className="main-container">
-                <RecommendationSection />
+                <RecommendationSection
+                    selectedRegion={selectedRegion}
+                    onRegionSelect={handleRegionSelect}
+                />
             </main>
-
             <MapSection />
             <Footer />
 
@@ -43,7 +44,8 @@ export default function Home({ onLogout, isLoggedIn }: HomeProps) {
                         className="survey-slide-container"
                         onClick={(e) => e.stopPropagation()}
                     >
-                        <SurveySidebar />
+                        <SurveySidebar onRegionSelect={handleRegionSelect} />{" "}
+                        {/* Pass down handleRegionSelect */}
                     </div>
                 </div>
             )}
