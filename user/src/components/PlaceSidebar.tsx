@@ -60,7 +60,7 @@ export default function PlaceSidebar({ place, onClose }: Props) {
                         >
                             <Icon
                                 icon={
-                                    isSaved(place.id) ? heartFilled : heartIcon
+                                    isSaved(place._id) ? heartFilled : heartIcon
                                 }
                             />
                         </button>

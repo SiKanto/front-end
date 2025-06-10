@@ -7,7 +7,7 @@ import "../styles/place-card.css";
 import type { Place } from "../data/dummyPlaces";
 
 interface Props extends Place {
-    id: string;
+    _id: string;
     name: string;
     city: string;
     rating: number;

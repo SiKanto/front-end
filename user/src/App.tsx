@@ -11,7 +11,7 @@ import { useState } from "react";
 
 export default function App() {
     const [token, setToken] = useState<string | null>(
-        localStorage.getItem("token") || "dummy-token"
+        localStorage.getItem("token") || null
     );
 
     const handleLogin = (token: string) => {
@@ -26,29 +26,29 @@ export default function App() {
 
     return (
         <Routes>
-            {/* Route untuk halaman utama (home) */}
+            {/* Route for the main page (home) */}
             <Route
                 path="/"
-                element={
-                    token ? (
-                        <Home onLogout={handleLogout} isLoggedIn={!!token} />
-                    ) : (
-                        <Navigate to="/login" replace />
-                    )
-                }
+                element={<Home onLogout={handleLogout} isLoggedIn={!!token} />}
+            />
+            <Route
+                path="/recommendation"
+                element={<Home onLogout={handleLogout} isLoggedIn={!!token} />}
             />
 
+            {/* Route for saved page, requires login */}
             <Route
                 path="/saved"
                 element={token ? <Saved /> : <Navigate to="/login" replace />}
             />
 
+            {/* Route for about page, no login required */}
             <Route
                 path="/about"
-                element={token ? <About /> : <Navigate to="/login" replace />}
+                element={<About onLogout={handleLogout} isLoggedIn={!!token} />}
             />
 
-            {/* Route untuk login */}
+            {/* Route for login */}
             <Route
                 path="/login"
                 element={
@@ -60,13 +60,13 @@ export default function App() {
                 }
             />
 
-            {/* Route untuk signup */}
+            {/* Route for signup */}
             <Route
                 path="/signup"
                 element={!token ? <Signup /> : <Navigate to="/" replace />}
             />
 
-            {/* Route untuk reset password */}
+            {/* Route for reset password */}
             <Route
                 path="/reset-password"
                 element={!token ? <Reset /> : <Navigate to="/" replace />}

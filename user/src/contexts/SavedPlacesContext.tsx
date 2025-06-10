@@ -24,17 +24,17 @@ export function SavedPlacesProvider({ children }: { children: ReactNode }) {
     };
 
     const removePlace = (placeId: string) => {
-        setSavedPlaces((prev) => prev.filter((p) => p.id !== placeId));
+        setSavedPlaces((prev) => prev.filter((p) => p._id !== placeId));
     };
 
     const isSaved = (placeId: string) => {
-        return savedPlaces.some((p) => p.id === placeId);
+        return savedPlaces.some((p) => p._id === placeId);
     };
 
     const toggleSaved = (place: Place) => {
         setSavedPlaces((prev) =>
-            prev.some((p) => p.id === place.id)
-                ? prev.filter((p) => p.id !== place.id)
+            prev.some((p) => p._id === place._id)
+                ? prev.filter((p) => p._id !== place._id)
                 : [...prev, place]
         );
     };

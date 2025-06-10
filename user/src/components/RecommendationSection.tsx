@@ -32,11 +32,11 @@ export default function RecommendationSection({
     // Filter places based on selectedRegion
     const filteredPlaces = selectedRegion
         ? (predictedPlaces.length > 0 ? predictedPlaces : places).filter(
-              (place) =>
-                  place.location
-                      .toLowerCase()
-                      .includes(selectedRegion.toLowerCase())
-          )
+                (place) =>
+                    place.location
+                        .toLowerCase()
+                        .includes(selectedRegion.toLowerCase())
+            )
         : places;
 
     const maxPage = Math.max(
@@ -72,6 +72,7 @@ export default function RecommendationSection({
             .get("https://kanto-backend.up.railway.app/destinations")
             .then((response) => {
                 const fetchedPlaces: Place[] = response.data;
+                console.log(fetchedPlaces)
                 setPlaces(fetchedPlaces);
                 setLoading(false);
             })

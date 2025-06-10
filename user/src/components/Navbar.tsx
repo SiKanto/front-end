@@ -1,7 +1,5 @@
-// File: src/components/Navbar.tsx
-
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import Logo from "../assets/images/logo-kanto-red.png";
 import { Icon } from "@iconify/react";
 import menuIcon from "@iconify/icons-solar/hamburger-menu-outline";
@@ -14,12 +12,10 @@ interface NavbarProps {
 }
 
 export default function Navbar({ isLoggedIn, onLogout }: NavbarProps) {
-    const navigate = useNavigate();
     const [isMenuOpen, setIsMenuOpen] = useState(false);
 
     const handleLogout = () => {
         onLogout();
-        navigate("/login", { replace: true });
         setIsMenuOpen(false);
     };
 

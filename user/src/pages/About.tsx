@@ -5,7 +5,12 @@ import { useEffect, useState } from "react";
 import madura from "../assets/images/icon-bigred.png";
 import Footer from "../components/Footer";
 
-export default function About() {
+interface AboutProps {
+    onLogout: () => void;
+    isLoggedIn: boolean;
+}
+
+export default function About({ onLogout, isLoggedIn }: AboutProps) {
     const [entryVisible, setEntryVisible] = useState(false);
 
     useEffect(() => {
@@ -31,7 +36,7 @@ export default function About() {
 
     return (
         <>
-            <Navbar isLoggedIn onLogout={() => {}} />
+            <Navbar onLogout={onLogout} isLoggedIn={isLoggedIn} />
             <section
                 className={`about-page ${entryVisible ? "fade-entry" : ""}`}
             >
