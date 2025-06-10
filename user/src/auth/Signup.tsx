@@ -38,7 +38,7 @@ const Signup: React.FC = () => {
 
         try {
             const response = await axios.post(
-                "https://kanto-backend.up.railway.app/admin/create",
+                "https://kanto-backend.up.railway.app/users/register",
                 {
                     firstName,
                     lastName,
@@ -50,9 +50,9 @@ const Signup: React.FC = () => {
 
             if (
                 response.data &&
-                response.data.message === "Admin created successfully"
+                response.data.message === "User created successfully"
             ) {
-                setMessage("Admin created successfully!");
+                setMessage("User created successfully!");
                 setMessageType("success");
                 history("/login"); // Redirect ke halaman login
             } else {
