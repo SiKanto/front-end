@@ -1,5 +1,3 @@
-// File: src/contexts/SavedPlacesContext.tsx
-
 import { createContext, useContext, useState } from "react";
 import type { ReactNode } from "react";
 import type { Place } from "../data/dummyPlaces";

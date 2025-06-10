@@ -1,4 +1,3 @@
-// src/contexts/authContext.tsx
 import { createContext, useContext, useState } from "react";
 
 interface AuthContextType {
@@ -21,7 +20,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     };
 
     const logout = () => {
-        localStorage.removeItem("token");
+        localStorage.clear();
         setToken(null);
     };
 

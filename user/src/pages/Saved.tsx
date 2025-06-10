@@ -1,4 +1,3 @@
-// src/pages/Saved.tsx
 import "../styles/saved-page.css";
 import { useSavedPlaces } from "../contexts/SavedPlacesContext";
 import PlaceCard from "../components/PlaceCard";
@@ -12,12 +11,10 @@ export default function Saved() {
     const [selectedPlace, setSelectedPlace] = useState<Place | null>(null);
     const [pageVisible, setPageVisible] = useState(false);
 
-    // ⏬ Animasi transisi page on mount
     useEffect(() => {
         setTimeout(() => setPageVisible(true), 10);
     }, []);
 
-    // ⏬ Scroll animation effect
     useEffect(() => {
         const elements = document.querySelectorAll(".scroll-fade");
         const observer = new IntersectionObserver(

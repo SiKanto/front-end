@@ -11,7 +11,7 @@ import { useState } from "react";
 import "../styles/survey-sidebar.css";
 
 interface SurveySidebarProps {
-    onRegionSelect: (region: string) => void; // Callback to handle region selection
+    onRegionSelect: (region: string) => void;
 }
 
 export default function SurveySidebar({ onRegionSelect }: SurveySidebarProps) {
@@ -57,7 +57,7 @@ export default function SurveySidebar({ onRegionSelect }: SurveySidebarProps) {
             importance,
         });
         if (selectedRegion) {
-            onRegionSelect(selectedRegion); // Pass the selected region to the parent component
+            onRegionSelect(selectedRegion);
         }
     };
 

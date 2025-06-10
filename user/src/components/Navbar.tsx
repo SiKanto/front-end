@@ -4,7 +4,7 @@ import Logo from "../assets/images/logo-kanto-red.png";
 import { Icon } from "@iconify/react";
 import menuIcon from "@iconify/icons-solar/hamburger-menu-outline";
 import closeIcon from "@iconify/icons-solar/close-circle-outline";
-import { useAuth } from "../contexts/authContext"; // sesuaikan path
+import { useAuth } from "../contexts/authContext";
 import "../styles/navbar.css";
 
 export default function Navbar() {

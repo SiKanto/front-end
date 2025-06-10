@@ -16,15 +16,12 @@ const Signup: React.FC = () => {
     const [lastName, setLastName] = useState<string>("");
     const [email, setEmail] = useState<string>("");
     const [password, setPassword] = useState<string>("");
-    const [messageType, setMessageType] = useState<string>(""); // 'success' or 'error'
+    const [messageType, setMessageType] = useState<string>("");
     const [message, setMessage] = useState<string>("");
     const history = useNavigate();
     const [showPassword, setShowPassword] = useState<boolean>(false);
-
-    // ref untuk animasi
     const nodeRef = useRef(null);
 
-    // Fungsi toggle show/hide password
     const togglePasswordEye = () => {
         setShowPassword(!showPassword);
     };
@@ -54,7 +51,7 @@ const Signup: React.FC = () => {
             ) {
                 setMessage("User created successfully!");
                 setMessageType("success");
-                history("/login"); // Redirect ke halaman login
+                history("/login");
             } else {
                 setMessage(response.data.message || "Something went wrong!");
                 setMessageType("error");
@@ -78,8 +75,8 @@ const Signup: React.FC = () => {
         <div className="container-login">
             <div className="container-login-in">
                 <CSSTransition
-                    in={true} // true supaya animasi fade in saat mount
-                    appear // supaya animasi muncul pertama kali
+                    in={true}
+                    appear
                     timeout={600}
                     classNames="flip"
                     unmountOnExit

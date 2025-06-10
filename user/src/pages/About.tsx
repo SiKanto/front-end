@@ -9,7 +9,6 @@ export default function About() {
     const [entryVisible, setEntryVisible] = useState(false);
 
     useEffect(() => {
-        // Trigger animation on mount
         setEntryVisible(true);
 
         const observer = new IntersectionObserver(

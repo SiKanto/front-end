@@ -20,7 +20,7 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
     const [email, setEmail] = useState<string>("");
     const [password, setPassword] = useState<string>("");
     const [message, setMessage] = useState<string>("");
-    const [messageType, setMessageType] = useState<string>(""); // 'success' or 'error'
+    const [messageType, setMessageType] = useState<string>("");
     const [rememberMe, setRememberMe] = useState<boolean>(false);
     const history = useNavigate();
     const [showPassword, setShowPassword] = useState<boolean>(false);
@@ -54,7 +54,7 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
         setMessageType("");
 
         try {
-            await new Promise((res) => setTimeout(res, 1500)); // loading minimal 1.5 detik
+            await new Promise((res) => setTimeout(res, 1500));
 
             const response = await axios.post(
                 "https://kanto-backend.up.railway.app/users/login",
@@ -66,6 +66,10 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
 
             if (response.data && response.data.token) {
                 localStorage.setItem("token", response.data.token);
+                localStorage.setItem(
+                    "user",
+                    JSON.stringify(response.data.user)
+                );
                 onLogin(response.data.token);
                 history("/");
 
@@ -116,6 +120,10 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
 
             if (loginResponse.data.token) {
                 localStorage.setItem("token", loginResponse.data.token);
+                localStorage.setItem(
+                    "user",
+                    JSON.stringify(loginResponse.data.user)
+                );
                 onLogin(loginResponse.data.token);
                 history("/");
             } else {
@@ -141,7 +149,7 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
                 }}
             >
                 <CSSTransition
-                    in={!loading} // animasi muncul saat loading false
+                    in={!loading}
                     appear={true}
                     timeout={600}
                     classNames="flip"

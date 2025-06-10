@@ -8,10 +8,9 @@ import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import "../styles/map-section.css";
 import axios from "axios";
-import { motion } from "framer-motion"; // Import motion for animation
-import type { Place } from "../data/dummyPlaces"; // Import the correct type
+import { motion } from "framer-motion";
+import type { Place } from "../data/dummyPlaces";
 
-// Define the categories based on your dataset
 type Category =
     | "Alam"
     | "Budaya"
@@ -23,7 +22,6 @@ type Category =
     | "Taman"
     | "Wahana Air";
 
-// Icons for each category
 const icons: Record<Category, L.Icon> = {
     Alam: new L.Icon({ iconUrl: "/icons/attraction.png", iconSize: [32, 32] }),
     Budaya: new L.Icon({ iconUrl: "/icons/culture.png", iconSize: [32, 32] }),
@@ -42,21 +40,20 @@ const icons: Record<Category, L.Icon> = {
     }),
 };
 
-// Default fallback icon for unknown categories
 const fallbackIcon = new L.Icon({
     iconUrl: "/icons/cafe.png",
     iconSize: [32, 32],
 });
 
 export default function MapSection() {
-    const [places, setPlaces] = useState<Place[]>([]); // Type for places array
+    const [places, setPlaces] = useState<Place[]>([]); 
     const [dropdownOpen, setDropdownOpen] = useState(false);
     const [selectedOption, setSelectedOption] = useState("Filter place by");
     const [searchTerm, setSearchTerm] = useState("");
 
-    const [isVisible, setIsVisible] = useState(false); // Track visibility of map section
+    const [isVisible, setIsVisible] = useState(false);
 
-    const mapSectionRef = useRef(null); // Reference for the map section
+    const mapSectionRef = useRef(null);
 
     const handleToggle = () => setDropdownOpen(!dropdownOpen);
 
@@ -71,11 +68,10 @@ export default function MapSection() {
     };
 
     useEffect(() => {
-        // Fetch the data from the API
         axios
             .get("https://kanto-backend.up.railway.app/destinations")
             .then((response) => {
-                const fetchedPlaces: Place[] = response.data; // Type the response data
+                const fetchedPlaces: Place[] = response.data;
                 setPlaces(fetchedPlaces);
             })
             .catch((error) => {
@@ -97,12 +93,12 @@ export default function MapSection() {
         const observer = new IntersectionObserver(
             ([entry]) => {
                 if (entry.isIntersecting) {
-                    setIsVisible(true); // When map section is in view, set visible to true
+                    setIsVisible(true);
                 } else {
-                    setIsVisible(false); // When map section is out of view, set visible to false
+                    setIsVisible(false);
                 }
             },
-            { threshold: 0.1 } // Trigger when 10% of the section is visible
+            { threshold: 0.1 }
         );
 
         if (mapSectionRef.current) {
@@ -116,7 +112,6 @@ export default function MapSection() {
         };
     }, []);
 
-    // Variants for staggered animations
     const containerVariants = {
         hidden: {
             opacity: 0,
@@ -128,12 +123,11 @@ export default function MapSection() {
             transition: {
                 duration: 0.8,
                 ease: "easeOut",
-                staggerChildren: 0.2, // Add stagger effect between elements
+                staggerChildren: 0.2,
             },
         },
     };
 
-    // Child variant for each element inside the map section
     const childVariants = {
         hidden: { opacity: 0, y: 30 },
         visible: { opacity: 1, y: 0 },
@@ -145,7 +139,7 @@ export default function MapSection() {
             ref={mapSectionRef}
             initial="hidden"
             animate={isVisible ? "visible" : "hidden"}
-            variants={containerVariants} // Apply container variants for staggered effect
+            variants={containerVariants}
         >
             <motion.div variants={childVariants}>
                 <div className="filter-bar">
@@ -252,11 +246,11 @@ export default function MapSection() {
                             return (
                                 <Marker
                                     key={index}
-                                    position={[place.lat, place.lon]} // Ensure lat and lon are numbers
+                                    position={[place.lat, place.lon]}
                                     icon={
                                         icons[place.category as Category] ||
                                         fallbackIcon
-                                    } // Fallback if category is missing
+                                    }
                                 >
                                     <Popup>
                                         <strong>{place.name}</strong>

@@ -13,14 +13,13 @@ const ResetPassword: React.FC = () => {
     const [email, setEmail] = useState<string>("");
     const [newPassword, setNewPassword] = useState<string>("");
     const [message, setMessage] = useState<string>("");
-    const [messageType, setMessageType] = useState<string>(""); // 'success' or 'error'
+    const [messageType, setMessageType] = useState<string>("");
     const [showPassword, setShowPassword] = useState<boolean>(false);
-    const [step, setStep] = useState<number>(1); // Step 1: Email, Step 2: New Password
+    const [step, setStep] = useState<number>(1);
     const history = useNavigate();
 
     const nodeRef = useRef(null);
 
-    // Toggle password visibility
     const togglePasswordEye = () => {
         setShowPassword(!showPassword);
     };
@@ -80,7 +79,7 @@ const ResetPassword: React.FC = () => {
         <div className="container-login">
             <div className="container-login-in">
                 <CSSTransition
-                    in={true} // muncul saat mount
+                    in={true}
                     appear
                     timeout={600}
                     classNames="flip"
