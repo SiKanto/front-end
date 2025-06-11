@@ -1,4 +1,4 @@
-# 🌐 Web Application - User & Admin Panel
+# 🌐 Laporan Proyek Front End - KANTO: Web Application - User & Admin Panel
 
 A dual-role web application consisting of:
 - **User App** (Frontend SPA with Vite + React + TypeScript)
@@ -24,19 +24,22 @@ UI designs were crafted using **Figma**, focusing on:
 - Mobile-first responsive layout.
 - Visual hierarchy using color, size, and spacing.
 
+![image](https://github.com/user-attachments/assets/867aea94-589b-4a27-a8da-c0868a34765e)
+![image](https://github.com/user-attachments/assets/51dfd787-d0c1-48d0-b186-00a4d7876cb0)
+
+
 These designs served as a shared reference between frontend and backend teams.
 
 ---
 
 ## 💻 Tech Stack
 
-| Layer         | Tech Used                         |
+| Layer        | Tech Used                         |
 |--------------|-----------------------------------|
 | Frontend     | React.js, Vite, TypeScript        |
 | Admin Panel  | React.js, TailwindCSS, CRACO      |
 | Styling      | TailwindCSS, Custom CSS           |
-| Backend API  | Node.js, Hapi (not included here) |
-| Deployment   | Netlify (User), Railway (Backend) |
+| Deployment   | Netlify (User)                    |
 
 ---
 
