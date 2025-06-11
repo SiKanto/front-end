@@ -27,7 +27,6 @@ UI designs were crafted using **Figma**, focusing on:
 ![image](https://github.com/user-attachments/assets/867aea94-589b-4a27-a8da-c0868a34765e)
 ![image](https://github.com/user-attachments/assets/51dfd787-d0c1-48d0-b186-00a4d7876cb0)
 
-
 These designs served as a shared reference between frontend and backend teams.
 
 ---
@@ -87,7 +86,5 @@ After deployment, the team continues:
 - Implementing version control and changelogs.
 
 ---
-
-## 📁 Project Structure
 
 
