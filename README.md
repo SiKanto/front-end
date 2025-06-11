@@ -25,7 +25,7 @@ Desain antarmuka dibuat menggunakan Figma, mencakup:
 ![image](https://github.com/user-attachments/assets/51dfd787-d0c1-48d0-b186-00a4d7876cb0)
 ![image](https://github.com/user-attachments/assets/ba30433b-6d5c-43f3-918d-c851b29b7c08)
 
-Desain ini menjadi panduan utama dalam proses implementasi dan integrasi antarmuka.
+> Desain ini menjadi panduan utama dalam proses implementasi dan integrasi antarmuka.
 
 ---
 
@@ -73,8 +73,6 @@ Each component was tested during development for:
 - Functional integrity
 - UI responsiveness
 - Consistency with Figma design
-
-Regular code reviews ensured alignment between frontend and backend modules.
 
 ---
 
