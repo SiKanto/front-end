@@ -86,7 +86,7 @@ Regular code reviews ensured alignment between frontend and backend modules.
 | Admin Panel | [Optional Deployment] |
 | Backend API | Railway  |
 
-CI/CD setup ensures auto-deployments after merging updates to the main branch.
+> CI/CD setup ensures auto-deployments after merging updates to the main branch.
 
 ---
 
